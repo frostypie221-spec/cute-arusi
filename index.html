@@ -15,7 +15,7 @@
       font-family: 'Poppins', sans-serif;
       background: linear-gradient(135deg, #ffe6f0, #fffafc);
       min-height: 100vh;
-      overflow: hidden;
+      overflow-x: hidden;
       text-align: center;
       color: #222;
     }
@@ -23,10 +23,12 @@
     .page {
       display: none;
       min-height: 100vh;
-      padding: 30px 20px;
+      padding: 20px 15px;
       flex-direction: column;
       align-items: center;
-      justify-content: center;
+      justify-content: flex-start;     /* start from top */
+      overflow-y: auto;                /* allow scrolling when needed */
+      -webkit-overflow-scrolling: touch;
     }
     .page.active {
       display: flex;
@@ -34,10 +36,10 @@
 
     h1, h2 {
       color: #ff3b7a;
-      margin: 0.5em 0;
+      margin: 0.6em 0 1em;
     }
     .glow {
-      font-size: 2.8rem;
+      font-size: 2.6rem;
       font-weight: 700;
       animation: glow 2.5s infinite alternate;
     }
@@ -46,30 +48,32 @@
       to   { text-shadow: 0 0 25px #ff5fa2, 0 0 45px #ff5fa2; }
     }
 
+    .photo {
+      width: 220px;
+      max-width: 80%;
+      border-radius: 24px;
+      margin: 15px auto 20px;
+      box-shadow: 0 12px 30px rgba(0,0,0,0.2);
+    }
+
     button {
-      padding: 14px 30px;
-      margin: 10px 8px;
+      padding: 12px 28px;
+      margin: 8px 6px;
       border: none;
       border-radius: 50px;
       background: #ff5c8a;
       color: white;
-      font-size: 1.1rem;
+      font-size: 1rem;
       font-weight: 600;
       cursor: pointer;
       transition: all 0.3s;
       box-shadow: 0 5px 15px rgba(255,92,138,0.4);
+      min-width: 140px;
+      max-width: 80%;
     }
     button:hover {
       transform: scale(1.08);
       background: #ff3b7a;
-    }
-
-    .photo {
-      width: 240px;
-      max-width: 85%;
-      border-radius: 24px;
-      margin: 20px auto;
-      box-shadow: 0 12px 30px rgba(0,0,0,0.2);
     }
 
     .float {
@@ -109,6 +113,7 @@
     #noLove {
       position: absolute;
       background: #aaa;
+      padding: 12px 24px;
     }
 
     #secretBtn {
@@ -129,6 +134,21 @@
     }
     @keyframes spark {
       to { opacity: 0; transform: scale(0.2) translateY(-50px); }
+    }
+
+    /* Fix for birth year page on small screens – 2 buttons per row */
+    @media (max-width: 420px) {
+      #p4 {
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 10px;
+        padding-bottom: 40px; /* extra space at bottom */
+      }
+      #p4 button {
+        flex: 1 1 45%;
+        margin: 6px 4px;
+        max-width: 48%;
+      }
     }
   </style>
 </head>
@@ -157,7 +177,7 @@
   <button id="noLove">No 🙃</button>
 </div>
 
-<!-- PAGE 4 -->
+<!-- PAGE 4 – Birth year -->
 <div class="page" id="p4">
   <img src="arusi2.jpeg" class="photo" alt="Arusi">
   <h2>My birth year? 🎂</h2>
@@ -193,19 +213,14 @@ function showPopup(message, currentPage, nextPage) {
   const popup = document.getElementById('popup');
   const text = document.getElementById('popupText');
   
-  if (!popup || !text) {
-    console.error('Popup elements not found');
-    return;
-  }
+  if (!popup || !text) return;
 
   text.innerHTML = message;
   popup.style.display = 'flex';
 
   setTimeout(() => {
     popup.style.display = 'none';
-    if (nextPage) {
-      goToPage(currentPage, nextPage);
-    }
+    if (nextPage) goToPage(currentPage, nextPage);
   }, 1600);
 }
 
@@ -214,7 +229,6 @@ function closePopup() {
   if (popup) popup.style.display = 'none';
 }
 
-// No button runs away
 const noBtn = document.getElementById('noLove');
 if (noBtn) {
   noBtn.onmouseover = function() {
@@ -223,7 +237,6 @@ if (noBtn) {
   };
 }
 
-// Typing animation
 const msg = "I love you so so so much Arusi 🌷💖";
 let i = 0;
 const finalText = document.getElementById('finalText');
@@ -238,56 +251,4 @@ function typeWriter() {
   }
 }
 
-document.getElementById('p5').addEventListener('click', function() {
-  if (i === 0) typeWriter();
-});
-
-// Secret button
-document.getElementById('secretBtn').onclick = function() {
-  showPopup("Arusi 🌷&lt;br&gt;You are my favorite person 💖&lt;br&gt;You make my heart smile every day 🫶&lt;br&gt;I love you endlessly 💞", null, null);
-};
-
-// Slideshow on page 1
-const images = ["arusi1.jpeg", "arusi2.jpeg", "arusi3.jpeg"];
-let current = 0;
-const slideImg = document.getElementById('slide');
-
-setInterval(() => {
-  if (document.getElementById('p1').classList.contains('active')) {
-    current = (current + 1) % images.length;
-    slideImg.src = images[current];
-  }
-}, 4000);
-
-// Floating flowers & hearts
-function createFloat(emoji, size, duration, interval) {
-  setInterval(() => {
-    let el = document.createElement('div');
-    el.className = 'float';
-    el.textContent = emoji;
-    el.style.left = Math.random() * 100 + 'vw';
-    el.style.fontSize = size;
-    el.style.animationDuration = duration + 's';
-    document.body.appendChild(el);
-    setTimeout(() => el.remove(), duration * 1000);
-  }, interval);
-}
-
-createFloat('🌷', '28px', 9, 400);
-createFloat('💖', '20px', 7, 300);
-
-// Sparkles
-document.addEventListener('mousemove', e => {
-  let s = document.createElement('div');
-  s.className = 'sparkle';
-  s.textContent = '✨';
-  s.style.left = e.clientX + 'px';
-  s.style.top = e.clientY + 'px';
-  document.body.appendChild(s);
-  setTimeout(() => s.remove(), 1300);
-});
-
-console.log("Page loaded – everything should work now 🌷");
-</script>
-</body>
-</html>
+document.getElementById('p5').addEventListener('click', function(
