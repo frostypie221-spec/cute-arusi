@@ -63,21 +63,24 @@
       cursor: pointer;
       transition: all 0.3s;
       box-shadow: 0 5px 15px rgba(255,92,138,0.4);
-      min-width: 140px;
+      min-width: 160px;
       max-width: 80%;
+      position: relative;
     }
     button:hover { transform: scale(1.08); background: #ff3b7a; }
+
+    .dodge-btn {
+      transition: all 0.15s;
+    }
 
     .float {
       position: absolute;
       pointer-events: none;
       animation: floatUp linear forwards;
-      font-family: 'Caveat', cursive;
-      font-weight: bold;
     }
     @keyframes floatUp {
       from { transform: translateY(110vh) rotate(0deg); opacity: 0.9; }
-      to   { transform: translateY(-30vh) rotate(720deg); opacity: 0; }
+      to { transform: translateY(-30vh) rotate(720deg); opacity: 0; }
     }
 
     #popup {
@@ -95,7 +98,7 @@
       padding: 28px 22px;
       border-radius: 26px;
       width: 90%;
-      max-width: 340px;
+      max-width: 360px;
       box-shadow: 0 15px 45px rgba(0,0,0,0.25);
       animation: pop 0.4s ease;
     }
@@ -104,14 +107,32 @@
       to { transform: scale(1); opacity: 1; }
     }
 
-    #noLove { position: absolute; background: #aaa; padding: 12px 24px; }
-
-    #secretBtn {
+    #teddyBubble {
       display: none;
-      background: #ff85ad;
-      animation: pulse 1.8s infinite;
+      position: absolute;
+      top: -100px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: #fff;
+      padding: 15px 20px;
+      border-radius: 20px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+      min-width: 240px;
+      font-size: 1.1rem;
+      z-index: 10;
     }
-    @keyframes pulse { 0%,100% { transform: scale(1); } 50% { transform: scale(1.1); } }
+    #teddyBubble:after {
+      content: '';
+      position: absolute;
+      bottom: -10px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 0;
+      height: 0;
+      border-left: 12px solid transparent;
+      border-right: 12px solid transparent;
+      border-top: 12px solid white;
+    }
 
     .sparkle {
       position: fixed;
@@ -121,89 +142,93 @@
     }
     @keyframes spark { to { opacity: 0; transform: scale(0.2) translateY(-50px); } }
 
-    /* Gift Box */
-    #giftBox {
-      position: relative;
-      width: 240px;
-      height: 240px;
-      margin: 30px auto;
-      cursor: pointer;
-      display: none;
-    }
-    #closedBox, #openBox {
-      width: 100%;
-      position: absolute;
-      top: 0;
-      left: 0;
-      transition: opacity 1.2s ease;
-    }
-    #openBox { opacity: 0; }
-    #teddyReveal {
-      width: 180px;
-      position: absolute;
-      bottom: -40px;
-      left: 50%;
-      transform: translateX(-50%);
-      opacity: 0;
-      transition: all 1.8s ease-out;
-      animation: hug 3s infinite ease-in-out;
-    }
-    @keyframes hug {
-      0%, 100% { transform: translateX(-50%) scale(1); }
-      50% { transform: translateX(-50%) scale(1.08); }
-    }
-
     @media (max-width: 420px) {
-      #p4 { flex-wrap: wrap; justify-content: center; gap: 10px; padding-bottom: 40px; }
-      #p4 button { flex: 1 1 45%; margin: 6px 4px; max-width: 48%; }
+      button { flex: 1 1 45%; margin: 6px 4px; max-width: 48%; }
     }
   </style>
 </head>
 <body>
 
+<!-- PAGE 1 – Valentine -->
 <div class="page active" id="p1">
   <img id="slide" class="photo" src="arusi1.jpeg" alt="Arusi">
   <h1 class="glow">Arusi 🌷</h1>
   <h2>Will you be my Valentine? 💖</h2>
   <button onclick="goToPage(1,2)">Yes 💘</button>
+  <button id="noValentine" class="dodge-btn">No 😔</button>
 </div>
 
+<!-- PAGE 2 – Likes -->
 <div class="page" id="p2">
   <h2>What do I like the most? 🤭</h2>
   <button onclick="showPopup('Wrong 😝&lt;br&gt;Not talking to you 💔', 2, 2)">Momos</button>
   <button onclick="showPopup('Nopeee 😆&lt;br&gt;Try again 💕', 2, 2)">Pizza</button>
-  <button onclick="showPopup('Yayyy 😭💖&lt;br&gt;I love you so much 🌷', 2, 4)">Pulau</button>
+  <button onclick="showPopup('Yayyy 😭💖&lt;br&gt;I love you so much 🌷', 2, 3)">Pulau</button>
 </div>
 
+<!-- PAGE 3 – Amazing person -->
 <div class="page" id="p3">
-  <h2>Do you love me? 🥺</h2>
-  <button onclick="showPopup('I knew it 😭💞', 3, 4)">Yes 💖</button>
-  <button id="noLove">No 🙃</button>
+  <h2>Am I an amazing person? 🥰</h2>
+  <button onclick="addChoco(10); goToPage(3,4)">Yes, the best! ✨</button>
+  <button id="noAmazing" class="dodge-btn">No 😒</button>
 </div>
 
+<!-- PAGE 4 – Annoy -->
 <div class="page" id="p4">
+  <h2>Do I annoy you? 🥺</h2>
+  <button onclick="showPopup('Yay! 🥳💕&lt;br&gt;I knew I was bearable hehe', 4, 5); addChoco(10)">No, not at all</button>
+  <button onclick="showPopup('😭💔&lt;br&gt;Ouch... I\'ll try to be better 🥺', 4, 5)">Yes, a lot</button>
+</div>
+
+<!-- PAGE 5 – Love me -->
+<div class="page" id="p5">
+  <h2>Do you love me? 🥺</h2>
+  <button onclick="addChoco(20); goToPage(5,6)">Yes 💖</button>
+  <button id="noLove" class="dodge-btn">No 🙃</button>
+</div>
+
+<!-- PAGE 6 – Birth year -->
+<div class="page" id="p6">
   <img src="arusi2.jpeg" class="photo" alt="Arusi">
   <h2>My birth year? 🎂</h2>
-  <button onclick="showPopup('Aww wrong 😔', 4, 4)">2006</button>
-  <button onclick="showPopup('Nope 😅', 4, 4)">2009</button>
-  <button onclick="showPopup('Almost 😆', 4, 4)">2005</button>
-  <button onclick="showPopup('You know me so well 🥹💖', 4, 5)">2007</button>
+  <button onclick="showPopup('Aww wrong 😔', 6, 6)">2006</button>
+  <button onclick="showPopup('Nope 😅', 6, 6)">2009</button>
+  <button onclick="showPopup('Almost 😆', 6, 6)">2005</button>
+  <button onclick="showPopup('You know me so well 🥹💖', 6, 7); addChoco(30)">2007</button>
 </div>
 
-<div class="page" id="p5">
+<!-- FINAL PAGE -->
+<div class="page" id="p7">
   <img src="arusi3.jpeg" class="photo" alt="Arusi">
-  <h1 id="finalText" style="font-family: 'Caveat', cursive; font-size: 3rem; margin: 20px 0;"></h1>
-  
-  <!-- Virtual Gift Box -->
-  <div id="giftBox">
-    <img id="closedBox" src="https://i.imgur.com/EXAMPLE-closed-box.png" alt="Gift Box">
-    <img id="openBox" src="https://i.imgur.com/EXAMPLE-open-box.png" alt="Opened Gift">
-    <img id="teddyReveal" src="https://i.imgur.com/EXAMPLE-cute-teddy-roses.png" alt="Teddy Surprise">
+  <h1 id="finalText" style="font-family: 'Caveat', cursive; font-size: 3.2rem; margin: 20px 0;"></h1>
+
+  <!-- Chocolate Counter -->
+  <div id="chocoCounter" style="font-size:1.5rem; color:#ff3b7a; margin:15px 0; display:none;">
+    Chocolates & teddy hugs I owe you: <strong id="count">0</strong> 🍫🧸
+  </div>
+
+  <!-- Bouquet Game -->
+  <div id="bouquet" style="margin:25px 0; display:none;">
+    <h3>Pick your favorites 🌷🌹🍫🧸</h3>
+    <button onclick="addToBouquet('🌷')">Tulip</button>
+    <button onclick="addToBouquet('🌹')">Rose</button>
+    <button onclick="addToBouquet('🍫')">Chocolate</button>
+    <button onclick="addToBouquet('🧸')">Teddy Hug</button>
+    <div id="bouquetDisplay" style="font-size:2.5rem; min-height:60px; margin-top:15px;"></div>
+  </div>
+
+  <!-- Teddy Says -->
+  <div style="position:relative; margin:40px auto; width:180px; cursor:pointer;">
+    <img src="https://i.imgur.com/EXAMPLE-cute-teddy.png" style="width:100%;" onclick="teddyTalk()" alt="Teddy">
+    <div id="teddyBubble">
+      <span id="teddyMsg"></span>
+    </div>
   </div>
 
   <button id="secretBtn">Final secret 💌</button>
 </div>
 
+<!-- POPUP -->
 <div id="popup">
   <div id="popupBox">
     <h2 id="popupText"></h2>
@@ -213,129 +238,123 @@
 </div>
 
 <script>
-  function goToPage(from, to) {
-    var pFrom = document.getElementById('p' + from);
-    var pTo   = document.getElementById('p' + to);
-    if (pFrom && pTo) {
-      pFrom.classList.remove('active');
-      pTo.classList.add('active');
-    }
+let chocoCount = 0;
+
+function addChoco(amount) {
+  chocoCount += amount;
+  let counter = document.getElementById('chocoCounter');
+  let countEl = document.getElementById('count');
+  if (counter && countEl) {
+    countEl.textContent = chocoCount;
+    counter.style.display = 'block';
   }
+}
 
-  function showPopup(message, current, next) {
-    var popupEl = document.getElementById('popup');
-    var textEl  = document.getElementById('popupText');
-    if (!popupEl || !textEl) return;
-
-    textEl.innerHTML = message;
-    popupEl.style.display = 'flex';
-
-    setTimeout(function() {
-      popupEl.style.display = 'none';
-      if (next) goToPage(current, next);
-    }, 1800);
+function goToPage(from, to) {
+  var pFrom = document.getElementById('p' + from);
+  var pTo   = document.getElementById('p' + to);
+  if (pFrom && pTo) {
+    pFrom.classList.remove('active');
+    pTo.classList.add('active');
   }
+}
 
-  function closePopup() {
-    var popupEl = document.getElementById('popup');
-    if (popupEl) popupEl.style.display = 'none';
-  }
+function showPopup(message, current, next) {
+  var popupEl = document.getElementById('popup');
+  var textEl  = document.getElementById('popupText');
+  if (!popupEl || !textEl) return;
 
-  var noBtn = document.getElementById('noLove');
-  if (noBtn) {
-    noBtn.onmouseover = function() {
-      this.style.left = Math.random() * 80 + 'vw';
-      this.style.top  = Math.random() * 80 + 'vh';
+  textEl.innerHTML = message;
+  popupEl.style.display = 'flex';
+
+  setTimeout(function() {
+    popupEl.style.display = 'none';
+    if (next) goToPage(current, next);
+  }, 2000);
+}
+
+function closePopup() {
+  document.getElementById('popup').style.display = 'none';
+}
+
+// Dodge buttons
+function makeDodge(btnId) {
+  var btn = document.getElementById(btnId);
+  if (btn) {
+    btn.onmouseover = function() {
+      this.style.left = Math.random() * 70 + 'vw';
+      this.style.top  = Math.random() * 70 + 'vh';
+      this.style.position = 'absolute';
     };
   }
+}
+makeDodge('noValentine');
+makeDodge('noAmazing');
+makeDodge('noLove');
 
-  var loveMsg = "I love you so so so much Arusi 🌷💖🍫🧸";
-  var charIdx = 0;
-  var finalEl = document.getElementById('finalText');
+// Typing
+var loveMsg = "I love you so so so much Arusi 🌷💖🍫🧸";
+var charIdx = 0;
+var finalEl = document.getElementById('finalText');
 
-  function typeIt() {
-    if (charIdx < loveMsg.length) {
-      finalEl.innerHTML += loveMsg.charAt(charIdx);
-      charIdx++;
-      setTimeout(typeIt, 80);
-    } else {
-      document.getElementById('secretBtn').style.display = 'inline-block';
-      document.getElementById('giftBox').style.display = 'block';
-    }
+function typeIt() {
+  if (charIdx < loveMsg.length) {
+    finalEl.innerHTML += loveMsg.charAt(charIdx);
+    charIdx++;
+    setTimeout(typeIt, 80);
+  } else {
+    document.getElementById('secretBtn').style.display = 'inline-block';
+    document.getElementById('bouquet').style.display = 'block';
+    addChoco(50); // big bonus at the end
   }
+}
 
-  var p5 = document.getElementById('p5');
-  if (p5) {
-    p5.onclick = function() {
-      if (charIdx === 0) typeIt();
-    };
+document.getElementById('p7').onclick = function() {
+  if (charIdx === 0) typeIt();
+};
+
+// Secret
+document.getElementById('secretBtn').onclick = function() {
+  showPopup("Arusi 🌷<br>You are my favorite person 💖<br>You make my heart smile every day 🫶<br>I love you endlessly 💞<br><br>Here's your bouquet & teddy hugs 🍫🧸🌹", null, null);
+};
+
+// Bouquet
+function addToBouquet(item) {
+  document.getElementById('bouquetDisplay').innerHTML += item + ' ';
+}
+
+// Teddy talk
+function teddyTalk() {
+  const msgs = [
+    "Arusi is the cutest girl in the world 🧸💕",
+    "I need chocolates and hugs from you 🍫🤗",
+    "You're my favorite reason to smile 🌷",
+    "I love you more than all the roses in the world 🌹",
+    "Teddy says: never let go of her! 🧸❤️"
+  ];
+  document.getElementById('teddyMsg').textContent = msgs[Math.floor(Math.random() * msgs.length)];
+  document.getElementById('teddyBubble').style.display = 'block';
+  setTimeout(() => {
+    document.getElementById('teddyBubble').style.display = 'none';
+  }, 5000);
+}
+
+// Slideshow
+var pics = ["arusi1.jpeg", "arusi2.jpeg", "arusi3.jpeg"];
+var picIdx = 0;
+var slide = document.getElementById('slide');
+setInterval(function() {
+  if (document.getElementById('p1').classList.contains('active')) {
+    picIdx = (picIdx + 1) % pics.length;
+    if (slide) slide.src = pics[picIdx];
   }
+}, 4000);
 
-  var secretBtn = document.getElementById('secretBtn');
-  if (secretBtn) {
-    secretBtn.onclick = function() {
-      showPopup(`Arusi 🌷<br>
-You are my favorite person 💖<br>
-You make my heart smile every day 🫶<br>
-I love you endlessly 💞<br>
-Here's a little surprise just for you 🍫🧸🌹`, null, null);
-
-      // Open gift box
-      document.getElementById('closedBox').style.opacity = '0';
-      document.getElementById('openBox').style.opacity = '1';
-      setTimeout(() => {
-        document.getElementById('teddyReveal').style.opacity = '1';
-        document.getElementById('teddyReveal').style.bottom = '40px';
-      }, 800);
-    };
-  }
-
-  var pics = ["arusi1.jpeg", "arusi2.jpeg", "arusi3.jpeg"];
-  var picIdx = 0;
-  var slide = document.getElementById('slide');
+// Floating
+function spawn(emoji, sz, dur, freq) {
   setInterval(function() {
-    if (document.getElementById('p1').classList.contains('active')) {
-      picIdx = (picIdx + 1) % pics.length;
-      if (slide) slide.src = pics[picIdx];
-    }
-  }, 4000);
-
-  // Personal floating: ARUSI + her favorites
-  function spawnPersonal() {
-    const letters = ['A','R','U','S','I'];
-    const favorites = ['🌷','🌹','🍫','🧸'];
-    setInterval(function() {
-      var el = document.createElement('div');
-      el.className = 'float';
-      if (Math.random() > 0.5 && document.getElementById('p5').classList.contains('active')) {
-        el.textContent = letters[Math.floor(Math.random() * letters.length)];
-        el.style.fontSize = '36px';
-        el.style.color = '#ff3b7a';
-        el.style.fontFamily = "'Caveat', cursive";
-      } else {
-        el.textContent = favorites[Math.floor(Math.random() * favorites.length)];
-        el.style.fontSize = '30px';
-      }
-      el.style.left = Math.random() * 100 + 'vw';
-      el.style.animationDuration = (7 + Math.random() * 8) + 's';
-      document.body.appendChild(el);
-      setTimeout(function() { el.remove(); }, 15000);
-    }, 500);
-  }
-  spawnPersonal();
-
-  // Sparkles
-  document.addEventListener('mousemove', function(e) {
-    var sp = document.createElement('div');
-    sp.className = 'sparkle';
-    sp.textContent = '✨';
-    sp.style.left = e.clientX + 'px';
-    sp.style.top  = e.clientY + 'px';
-    document.body.appendChild(sp);
-    setTimeout(function() { sp.remove(); }, 1300);
-  });
-
-  console.log("Customized version loaded – gift box & ARUSI floating ready 💕");
-</script>
-</body>
-</html>
+    var el = document.createElement('div');
+    el.className = 'float';
+    el.textContent = emoji;
+    el.style.left = Math.random() * 100 + 'vw';
+    el.style.font
