@@ -7,7 +7,7 @@
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Caveat:wght@400;700&display=swap" rel="stylesheet">
 
   <style>
     * { margin:0; padding:0; box-sizing:border-box; }
@@ -34,7 +34,7 @@
 
     h1, h2 { color: #ff3b7a; margin: 0.6em 0 1em; }
     .glow {
-      font-size: 2.6rem;
+      font-size: 2.8rem;
       font-weight: 700;
       animation: glow 2.5s infinite alternate;
     }
@@ -72,6 +72,8 @@
       position: absolute;
       pointer-events: none;
       animation: floatUp linear forwards;
+      font-family: 'Caveat', cursive;
+      font-weight: bold;
     }
     @keyframes floatUp {
       from { transform: translateY(110vh) rotate(0deg); opacity: 0.9; }
@@ -99,7 +101,7 @@
     }
     @keyframes pop {
       from { transform: scale(0.7); opacity: 0; }
-      to   { transform: scale(1); opacity: 1; }
+      to { transform: scale(1); opacity: 1; }
     }
 
     #noLove { position: absolute; background: #aaa; padding: 12px 24px; }
@@ -118,6 +120,38 @@
       animation: spark 1.3s forwards;
     }
     @keyframes spark { to { opacity: 0; transform: scale(0.2) translateY(-50px); } }
+
+    /* Gift Box */
+    #giftBox {
+      position: relative;
+      width: 240px;
+      height: 240px;
+      margin: 30px auto;
+      cursor: pointer;
+      display: none;
+    }
+    #closedBox, #openBox {
+      width: 100%;
+      position: absolute;
+      top: 0;
+      left: 0;
+      transition: opacity 1.2s ease;
+    }
+    #openBox { opacity: 0; }
+    #teddyReveal {
+      width: 180px;
+      position: absolute;
+      bottom: -40px;
+      left: 50%;
+      transform: translateX(-50%);
+      opacity: 0;
+      transition: all 1.8s ease-out;
+      animation: hug 3s infinite ease-in-out;
+    }
+    @keyframes hug {
+      0%, 100% { transform: translateX(-50%) scale(1); }
+      50% { transform: translateX(-50%) scale(1.08); }
+    }
 
     @media (max-width: 420px) {
       #p4 { flex-wrap: wrap; justify-content: center; gap: 10px; padding-bottom: 40px; }
@@ -158,20 +192,27 @@
 
 <div class="page" id="p5">
   <img src="arusi3.jpeg" class="photo" alt="Arusi">
-  <h1 id="finalText"></h1>
+  <h1 id="finalText" style="font-family: 'Caveat', cursive; font-size: 3rem; margin: 20px 0;"></h1>
+  
+  <!-- Virtual Gift Box -->
+  <div id="giftBox">
+    <img id="closedBox" src="https://i.imgur.com/EXAMPLE-closed-box.png" alt="Gift Box">
+    <img id="openBox" src="https://i.imgur.com/EXAMPLE-open-box.png" alt="Opened Gift">
+    <img id="teddyReveal" src="https://i.imgur.com/EXAMPLE-cute-teddy-roses.png" alt="Teddy Surprise">
+  </div>
+
   <button id="secretBtn">Final secret 💌</button>
 </div>
 
 <div id="popup">
   <div id="popupBox">
     <h2 id="popupText"></h2>
-    <div style="font-size:2.8rem; margin:20px 0;">🌷💖✨</div>
+    <div style="font-size:2.8rem; margin:20px 0;">🌷💖🍫🧸🌹✨</div>
     <button onclick="closePopup()">Okay 🥰</button>
   </div>
 </div>
 
 <script>
-  // All functions defined here – global scope
   function goToPage(from, to) {
     var pFrom = document.getElementById('p' + from);
     var pTo   = document.getElementById('p' + to);
@@ -192,7 +233,7 @@
     setTimeout(function() {
       popupEl.style.display = 'none';
       if (next) goToPage(current, next);
-    }, 1600);
+    }, 1800);
   }
 
   function closePopup() {
@@ -200,7 +241,6 @@
     if (popupEl) popupEl.style.display = 'none';
   }
 
-  // Runaway No
   var noBtn = document.getElementById('noLove');
   if (noBtn) {
     noBtn.onmouseover = function() {
@@ -209,8 +249,7 @@
     };
   }
 
-  // Typing
-  var loveMsg = "I love you so so so much Arusi 🌷💖";
+  var loveMsg = "I love you so so so much Arusi 🌷💖🍫🧸";
   var charIdx = 0;
   var finalEl = document.getElementById('finalText');
 
@@ -220,8 +259,8 @@
       charIdx++;
       setTimeout(typeIt, 80);
     } else {
-      var secret = document.getElementById('secretBtn');
-      if (secret) secret.style.display = 'inline-block';
+      document.getElementById('secretBtn').style.display = 'inline-block';
+      document.getElementById('giftBox').style.display = 'block';
     }
   }
 
@@ -232,15 +271,25 @@
     };
   }
 
-  // Secret popup
   var secretBtn = document.getElementById('secretBtn');
   if (secretBtn) {
     secretBtn.onclick = function() {
-      showPopup("Arusi 🌷&lt;br&gt;You are my favorite person 💖&lt;br&gt;You make my heart smile every day 🫶&lt;br&gt;I love you endlessly 💞", null, null);
+      showPopup(`Arusi 🌷<br>
+You are my favorite person 💖<br>
+You make my heart smile every day 🫶<br>
+I love you endlessly 💞<br>
+Here's a little surprise just for you 🍫🧸🌹`, null, null);
+
+      // Open gift box
+      document.getElementById('closedBox').style.opacity = '0';
+      document.getElementById('openBox').style.opacity = '1';
+      setTimeout(() => {
+        document.getElementById('teddyReveal').style.opacity = '1';
+        document.getElementById('teddyReveal').style.bottom = '40px';
+      }, 800);
     };
   }
 
-  // Slideshow
   var pics = ["arusi1.jpeg", "arusi2.jpeg", "arusi3.jpeg"];
   var picIdx = 0;
   var slide = document.getElementById('slide');
@@ -251,21 +300,29 @@
     }
   }, 4000);
 
-  // Floating
-  function spawn(emoji, sz, dur, freq) {
+  // Personal floating: ARUSI + her favorites
+  function spawnPersonal() {
+    const letters = ['A','R','U','S','I'];
+    const favorites = ['🌷','🌹','🍫','🧸'];
     setInterval(function() {
       var el = document.createElement('div');
       el.className = 'float';
-      el.textContent = emoji;
+      if (Math.random() > 0.5 && document.getElementById('p5').classList.contains('active')) {
+        el.textContent = letters[Math.floor(Math.random() * letters.length)];
+        el.style.fontSize = '36px';
+        el.style.color = '#ff3b7a';
+        el.style.fontFamily = "'Caveat', cursive";
+      } else {
+        el.textContent = favorites[Math.floor(Math.random() * favorites.length)];
+        el.style.fontSize = '30px';
+      }
       el.style.left = Math.random() * 100 + 'vw';
-      el.style.fontSize = sz;
-      el.style.animationDuration = dur + 's';
+      el.style.animationDuration = (7 + Math.random() * 8) + 's';
       document.body.appendChild(el);
-      setTimeout(function() { el.remove(); }, dur * 1000);
-    }, freq);
+      setTimeout(function() { el.remove(); }, 15000);
+    }, 500);
   }
-  spawn('🌷', '28px', 9, 400);
-  spawn('💖', '20px', 7, 300);
+  spawnPersonal();
 
   // Sparkles
   document.addEventListener('mousemove', function(e) {
@@ -278,7 +335,7 @@
     setTimeout(function() { sp.remove(); }, 1300);
   });
 
-  console.log("Chrome-friendly version loaded – click Yes should work now");
+  console.log("Customized version loaded – gift box & ARUSI floating ready 💕");
 </script>
 </body>
 </html>
