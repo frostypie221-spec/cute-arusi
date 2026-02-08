@@ -5,13 +5,12 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>For Arusi 🌷</title>
 
-  <!-- Preload cute font -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
 
   <style>
-    * { box-sizing: border-box; margin:0; padding:0; }
+    * { margin:0; padding:0; box-sizing:border-box; }
     body {
       font-family: 'Poppins', sans-serif;
       background: linear-gradient(135deg, #ffe6f0, #fffafc);
@@ -29,33 +28,41 @@
       align-items: center;
       justify-content: center;
     }
-    .page.active { display: flex; }
+    .page.active {
+      display: flex;
+    }
 
-    h1, h2 { color: #ff3b7a; margin: 0.5em 0; }
+    h1, h2 {
+      color: #ff3b7a;
+      margin: 0.5em 0;
+    }
     .glow {
       font-size: 2.8rem;
       font-weight: 700;
       animation: glow 2.5s infinite alternate;
     }
     @keyframes glow {
-      from { text-shadow: 0 0 8px #ff9acb, 0 0 16px #ff5fa2; }
-      to   { text-shadow: 0 0 20px #ff5fa2, 0 0 40px #ff5fa2; }
+      from { text-shadow: 0 0 10px #ff9acb, 0 0 20px #ff5fa2; }
+      to   { text-shadow: 0 0 25px #ff5fa2, 0 0 45px #ff5fa2; }
     }
 
     button {
-      padding: 14px 32px;
-      margin: 10px 6px;
+      padding: 14px 30px;
+      margin: 10px 8px;
       border: none;
-      border-radius: 999px;
+      border-radius: 50px;
       background: #ff5c8a;
       color: white;
-      font-size: 1.05rem;
+      font-size: 1.1rem;
       font-weight: 600;
       cursor: pointer;
-      transition: all 0.25s ease;
-      box-shadow: 0 5px 15px rgba(255,92,138,0.35);
+      transition: all 0.3s;
+      box-shadow: 0 5px 15px rgba(255,92,138,0.4);
     }
-    button:hover { transform: scale(1.07); background: #ff3b7a; }
+    button:hover {
+      transform: scale(1.08);
+      background: #ff3b7a;
+    }
 
     .photo {
       width: 240px;
@@ -63,10 +70,8 @@
       border-radius: 24px;
       margin: 20px auto;
       box-shadow: 0 12px 30px rgba(0,0,0,0.2);
-      object-fit: cover;
     }
 
-    /* Floating emojis */
     .float {
       position: absolute;
       pointer-events: none;
@@ -77,12 +82,11 @@
       to   { transform: translateY(-30vh) rotate(720deg); opacity: 0; }
     }
 
-    /* Popup overlay */
     #popup {
       display: none;
       position: fixed;
       inset: 0;
-      background: rgba(255, 182, 193, 0.6);
+      background: rgba(255, 182, 193, 0.65);
       backdrop-filter: blur(6px);
       z-index: 9999;
       align-items: center;
@@ -95,17 +99,16 @@
       width: 90%;
       max-width: 340px;
       box-shadow: 0 15px 45px rgba(0,0,0,0.25);
-      animation: popIn 0.35s ease-out;
+      animation: pop 0.4s ease;
     }
-    @keyframes popIn {
-      from { transform: scale(0.75); opacity: 0; }
+    @keyframes pop {
+      from { transform: scale(0.7); opacity: 0; }
       to   { transform: scale(1); opacity: 1; }
     }
 
     #noLove {
       position: absolute;
-      background: #999;
-      padding: 12px 24px;
+      background: #aaa;
     }
 
     #secretBtn {
@@ -114,19 +117,18 @@
       animation: pulse 1.8s infinite;
     }
     @keyframes pulse {
-      0%,100% { transform: scale(1); }
-      50%     { transform: scale(1.1); }
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.1); }
     }
 
-    /* Cursor sparkle */
     .sparkle {
       position: fixed;
       pointer-events: none;
-      font-size: 1.5rem;
-      animation: sparkleFade 1.2s forwards;
+      font-size: 1.6rem;
+      animation: spark 1.3s forwards;
     }
-    @keyframes sparkleFade {
-      to { opacity: 0; transform: scale(0.3) translateY(-40px); }
+    @keyframes spark {
+      to { opacity: 0; transform: scale(0.2) translateY(-50px); }
     }
   </style>
 </head>
@@ -134,18 +136,18 @@
 
 <!-- PAGE 1 -->
 <div class="page active" id="p1">
-  <img id="slide" class="photo" src="arusi1.jpeg" alt="Arusi photo">
+  <img id="slide" class="photo" src="arusi1.jpeg" alt="Arusi">
   <h1 class="glow">Arusi 🌷</h1>
   <h2>Will you be my Valentine? 💖</h2>
-  <button onclick="goToPage(1, 2)">Yes 💘</button>
+  <button onclick="goToPage(1,2)">Yes 💘</button>
 </div>
 
 <!-- PAGE 2 -->
 <div class="page" id="p2">
   <h2>What do I like the most? 🤭</h2>
-  <button onclick="showPopup('Wrong 😝<br>Not talking to you 💔', 2, 2)">Momos</button>
-  <button onclick="showPopup('Nopeee 😆<br>Try again 💕', 2, 2)">Pizza</button>
-  <button onclick="showPopup('Yayyy 😭💖<br>I love you so much 🌷', 2, 4)">Pulau</button>
+  <button onclick="showPopup('Wrong 😝&lt;br&gt;Not talking to you 💔', 2, 2)">Momos</button>
+  <button onclick="showPopup('Nopeee 😆&lt;br&gt;Try again 💕', 2, 2)">Pizza</button>
+  <button onclick="showPopup('Yayyy 😭💖&lt;br&gt;I love you so much 🌷', 2, 4)">Pulau</button>
 </div>
 
 <!-- PAGE 3 -->
@@ -157,7 +159,7 @@
 
 <!-- PAGE 4 -->
 <div class="page" id="p4">
-  <img src="arusi2.jpeg" class="photo" alt="Arusi photo 2">
+  <img src="arusi2.jpeg" class="photo" alt="Arusi">
   <h2>My birth year? 🎂</h2>
   <button onclick="showPopup('Aww wrong 😔', 4, 4)">2006</button>
   <button onclick="showPopup('Nope 😅', 4, 4)">2009</button>
@@ -165,9 +167,9 @@
   <button onclick="showPopup('You know me so well 🥹💖', 4, 5)">2007</button>
 </div>
 
-<!-- FINAL PAGE -->
+<!-- PAGE 5 -->
 <div class="page" id="p5">
-  <img src="arusi3.jpeg" class="photo" alt="Arusi photo 3">
+  <img src="arusi3.jpeg" class="photo" alt="Arusi">
   <h1 id="finalText"></h1>
   <button id="secretBtn">Final secret 💌</button>
 </div>
@@ -176,123 +178,116 @@
 <div id="popup">
   <div id="popupBox">
     <h2 id="popupText"></h2>
-    <div style="font-size: 2.8rem; margin: 18px 0;">🌷💖✨</div>
+    <div style="font-size:2.8rem; margin:20px 0;">🌷💖✨</div>
     <button onclick="closePopup()">Okay 🥰</button>
   </div>
 </div>
 
 <script>
-  // Page switch
-  function goToPage(from, to) {
-    document.getElementById(p${from}).classList.remove('active');
-    document.getElementById(p${to}).classList.add('active');
+function goToPage(from, to) {
+  document.getElementById('p' + from).classList.remove('active');
+  document.getElementById('p' + to).classList.add('active');
+}
+
+function showPopup(message, currentPage, nextPage) {
+  const popup = document.getElementById('popup');
+  const text = document.getElementById('popupText');
+  
+  if (!popup || !text) {
+    console.error('Popup elements not found');
+    return;
   }
 
-  // Show popup + auto advance
-  function showPopup(msg, current, next) {
-    const popupEl   = document.getElementById('popup');
-    const textEl    = document.getElementById('popupText');
+  text.innerHTML = message;
+  popup.style.display = 'flex';
 
-    if (!popupEl || !textEl) {
-      console.error("Popup elements missing in HTML!");
-      return;
+  setTimeout(() => {
+    popup.style.display = 'none';
+    if (nextPage) {
+      goToPage(currentPage, nextPage);
     }
+  }, 1600);
+}
 
-    textEl.innerHTML = msg;
-    popupEl.style.display = 'flex';
+function closePopup() {
+  const popup = document.getElementById('popup');
+  if (popup) popup.style.display = 'none';
+}
 
-    setTimeout(() => {
-      popupEl.style.display = 'none';
-      if (next) goToPage(current, next);
-    }, 1500); // popup visible for \~1.5s
+// No button runs away
+const noBtn = document.getElementById('noLove');
+if (noBtn) {
+  noBtn.onmouseover = function() {
+    this.style.left = Math.random() * 80 + 'vw';
+    this.style.top = Math.random() * 80 + 'vh';
+  };
+}
+
+// Typing animation
+const msg = "I love you so so so much Arusi 🌷💖";
+let i = 0;
+const finalText = document.getElementById('finalText');
+
+function typeWriter() {
+  if (i < msg.length) {
+    finalText.innerHTML += msg.charAt(i);
+    i++;
+    setTimeout(typeWriter, 80);
+  } else {
+    document.getElementById('secretBtn').style.display = 'inline-block';
   }
+}
 
-  function closePopup() {
-    const popupEl = document.getElementById('popup');
-    if (popupEl) popupEl.style.display = 'none';
+document.getElementById('p5').addEventListener('click', function() {
+  if (i === 0) typeWriter();
+});
+
+// Secret button
+document.getElementById('secretBtn').onclick = function() {
+  showPopup("Arusi 🌷&lt;br&gt;You are my favorite person 💖&lt;br&gt;You make my heart smile every day 🫶&lt;br&gt;I love you endlessly 💞", null, null);
+};
+
+// Slideshow on page 1
+const images = ["arusi1.jpeg", "arusi2.jpeg", "arusi3.jpeg"];
+let current = 0;
+const slideImg = document.getElementById('slide');
+
+setInterval(() => {
+  if (document.getElementById('p1').classList.contains('active')) {
+    current = (current + 1) % images.length;
+    slideImg.src = images[current];
   }
+}, 4000);
 
-  // Runaway "No" button
-  const noBtn = document.getElementById('noLove');
-  if (noBtn) {
-    noBtn.onmouseover = () => {
-      noBtn.style.left = Math.random() * 80 + 'vw';
-      noBtn.style.top  = Math.random() * 80 + 'vh';
-    };
-  }
-
-  // Typing effect on final page
-  const loveText = "I love you so so so much Arusi 🌷💖";
-  let char = 0;
-  const finalEl = document.getElementById('finalText');
-
-  function type() {
-    if (char < loveText.length) {
-      finalEl.innerHTML += loveText.charAt(char);
-      char++;
-      setTimeout(type, 75);
-    } else {
-      document.getElementById('secretBtn').style.display = 'inline-block';
-    }
-  }
-
-  // Start typing when page 5 becomes visible (or on first click)
-  const page5 = document.getElementById('p5');
-  if (page5) {
-    page5.addEventListener('click', () => {
-      if (char === 0) type();
-    });
-  }
-
-  // Secret message popup
-  const secretBtn = document.getElementById('secretBtn');
-  if (secretBtn) {
-    secretBtn.onclick = () => {
-      showPopup("Arusi 🌷<br>You are my favorite person 💖<br>You make my heart smile every day 🫶<br>I love you endlessly 💞", null, null);
-    };
-  }
-
-  // Image slideshow (only active on page 1)
-  const pics = ['arusi1.jpeg', 'arusi2.jpeg', 'arusi3.jpeg'];
-  let idx = 0;
-  const slide = document.getElementById('slide');
+// Floating flowers & hearts
+function createFloat(emoji, size, duration, interval) {
   setInterval(() => {
-    if (document.getElementById('p1')?.classList.contains('active')) {
-      idx = (idx + 1) % pics.length;
-      if (slide) slide.src = pics[idx];
-    }
-  }, 4000);
+    let el = document.createElement('div');
+    el.className = 'float';
+    el.textContent = emoji;
+    el.style.left = Math.random() * 100 + 'vw';
+    el.style.fontSize = size;
+    el.style.animationDuration = duration + 's';
+    document.body.appendChild(el);
+    setTimeout(() => el.remove(), duration * 1000);
+  }, interval);
+}
 
-  // Floating tulips & hearts
-  function spawnFloat(emoji, sz = '26px', dur = 8500, freq = 320) {
-    setInterval(() => {
-      const fl = document.createElement('div');
-      fl.className = 'float';
-      fl.innerHTML = emoji;
-      fl.style.left = Math.random() * 100 + 'vw';
-      fl.style.fontSize = sz;
-      fl.style.animationDuration = (dur / 1000) + 's';
-      document.body.appendChild(fl);
-      setTimeout(() => fl.remove(), dur + 500);
-    }, freq);
-  }
-  spawnFloat('🌷', '30px', 9500, 380);
-  spawnFloat('💖', '22px', 7800, 300);
+createFloat('🌷', '28px', 9, 400);
+createFloat('💖', '20px', 7, 300);
 
-  // Sparkle on mouse
-  document.addEventListener('mousemove', e => {
-    const sp = document.createElement('div');
-    sp.className = 'sparkle';
-    sp.innerHTML = '✨';
-    sp.style.left = e.clientX + 'px';
-    sp.style.top  = e.clientY + 'px';
-    document.body.appendChild(sp);
-    setTimeout(() => sp.remove(), 1200);
-  });
+// Sparkles
+document.addEventListener('mousemove', e => {
+  let s = document.createElement('div');
+  s.className = 'sparkle';
+  s.textContent = '✨';
+  s.style.left = e.clientX + 'px';
+  s.style.top = e.clientY + 'px';
+  document.body.appendChild(s);
+  setTimeout(() => s.remove(), 1300);
+});
 
-  // Optional: log when everything loaded (check console)
-  console.log("Valentine page loaded successfully — click away! 🌷");
+console.log("Page loaded – everything should work now 🌷");
 </script>
-
 </body>
 </html>
