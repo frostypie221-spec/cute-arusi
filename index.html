@@ -26,18 +26,13 @@
       padding: 20px 15px;
       flex-direction: column;
       align-items: center;
-      justify-content: flex-start;     /* start from top */
-      overflow-y: auto;                /* allow scrolling when needed */
+      justify-content: flex-start;
+      overflow-y: auto;
       -webkit-overflow-scrolling: touch;
     }
-    .page.active {
-      display: flex;
-    }
+    .page.active { display: flex; }
 
-    h1, h2 {
-      color: #ff3b7a;
-      margin: 0.6em 0 1em;
-    }
+    h1, h2 { color: #ff3b7a; margin: 0.6em 0 1em; }
     .glow {
       font-size: 2.6rem;
       font-weight: 700;
@@ -71,10 +66,7 @@
       min-width: 140px;
       max-width: 80%;
     }
-    button:hover {
-      transform: scale(1.08);
-      background: #ff3b7a;
-    }
+    button:hover { transform: scale(1.08); background: #ff3b7a; }
 
     .float {
       position: absolute;
@@ -110,21 +102,14 @@
       to   { transform: scale(1); opacity: 1; }
     }
 
-    #noLove {
-      position: absolute;
-      background: #aaa;
-      padding: 12px 24px;
-    }
+    #noLove { position: absolute; background: #aaa; padding: 12px 24px; }
 
     #secretBtn {
       display: none;
       background: #ff85ad;
       animation: pulse 1.8s infinite;
     }
-    @keyframes pulse {
-      0%, 100% { transform: scale(1); }
-      50% { transform: scale(1.1); }
-    }
+    @keyframes pulse { 0%,100% { transform: scale(1); } 50% { transform: scale(1.1); } }
 
     .sparkle {
       position: fixed;
@@ -132,29 +117,16 @@
       font-size: 1.6rem;
       animation: spark 1.3s forwards;
     }
-    @keyframes spark {
-      to { opacity: 0; transform: scale(0.2) translateY(-50px); }
-    }
+    @keyframes spark { to { opacity: 0; transform: scale(0.2) translateY(-50px); } }
 
-    /* Fix for birth year page on small screens – 2 buttons per row */
     @media (max-width: 420px) {
-      #p4 {
-        flex-wrap: wrap;
-        justify-content: center;
-        gap: 10px;
-        padding-bottom: 40px; /* extra space at bottom */
-      }
-      #p4 button {
-        flex: 1 1 45%;
-        margin: 6px 4px;
-        max-width: 48%;
-      }
+      #p4 { flex-wrap: wrap; justify-content: center; gap: 10px; padding-bottom: 40px; }
+      #p4 button { flex: 1 1 45%; margin: 6px 4px; max-width: 48%; }
     }
   </style>
 </head>
 <body>
 
-<!-- PAGE 1 -->
 <div class="page active" id="p1">
   <img id="slide" class="photo" src="arusi1.jpeg" alt="Arusi">
   <h1 class="glow">Arusi 🌷</h1>
@@ -162,7 +134,6 @@
   <button onclick="goToPage(1,2)">Yes 💘</button>
 </div>
 
-<!-- PAGE 2 -->
 <div class="page" id="p2">
   <h2>What do I like the most? 🤭</h2>
   <button onclick="showPopup('Wrong 😝&lt;br&gt;Not talking to you 💔', 2, 2)">Momos</button>
@@ -170,14 +141,12 @@
   <button onclick="showPopup('Yayyy 😭💖&lt;br&gt;I love you so much 🌷', 2, 4)">Pulau</button>
 </div>
 
-<!-- PAGE 3 -->
 <div class="page" id="p3">
   <h2>Do you love me? 🥺</h2>
   <button onclick="showPopup('I knew it 😭💞', 3, 4)">Yes 💖</button>
   <button id="noLove">No 🙃</button>
 </div>
 
-<!-- PAGE 4 – Birth year -->
 <div class="page" id="p4">
   <img src="arusi2.jpeg" class="photo" alt="Arusi">
   <h2>My birth year? 🎂</h2>
@@ -187,14 +156,12 @@
   <button onclick="showPopup('You know me so well 🥹💖', 4, 5)">2007</button>
 </div>
 
-<!-- PAGE 5 -->
 <div class="page" id="p5">
   <img src="arusi3.jpeg" class="photo" alt="Arusi">
   <h1 id="finalText"></h1>
   <button id="secretBtn">Final secret 💌</button>
 </div>
 
-<!-- POPUP -->
 <div id="popup">
   <div id="popupBox">
     <h2 id="popupText"></h2>
@@ -204,51 +171,114 @@
 </div>
 
 <script>
-function goToPage(from, to) {
-  document.getElementById('p' + from).classList.remove('active');
-  document.getElementById('p' + to).classList.add('active');
-}
-
-function showPopup(message, currentPage, nextPage) {
-  const popup = document.getElementById('popup');
-  const text = document.getElementById('popupText');
-  
-  if (!popup || !text) return;
-
-  text.innerHTML = message;
-  popup.style.display = 'flex';
-
-  setTimeout(() => {
-    popup.style.display = 'none';
-    if (nextPage) goToPage(currentPage, nextPage);
-  }, 1600);
-}
-
-function closePopup() {
-  const popup = document.getElementById('popup');
-  if (popup) popup.style.display = 'none';
-}
-
-const noBtn = document.getElementById('noLove');
-if (noBtn) {
-  noBtn.onmouseover = function() {
-    this.style.left = Math.random() * 80 + 'vw';
-    this.style.top = Math.random() * 80 + 'vh';
-  };
-}
-
-const msg = "I love you so so so much Arusi 🌷💖";
-let i = 0;
-const finalText = document.getElementById('finalText');
-
-function typeWriter() {
-  if (i < msg.length) {
-    finalText.innerHTML += msg.charAt(i);
-    i++;
-    setTimeout(typeWriter, 80);
-  } else {
-    document.getElementById('secretBtn').style.display = 'inline-block';
+  // All functions defined here – global scope
+  function goToPage(from, to) {
+    var pFrom = document.getElementById('p' + from);
+    var pTo   = document.getElementById('p' + to);
+    if (pFrom && pTo) {
+      pFrom.classList.remove('active');
+      pTo.classList.add('active');
+    }
   }
-}
 
-document.getElementById('p5').addEventListener('click', function(
+  function showPopup(message, current, next) {
+    var popupEl = document.getElementById('popup');
+    var textEl  = document.getElementById('popupText');
+    if (!popupEl || !textEl) return;
+
+    textEl.innerHTML = message;
+    popupEl.style.display = 'flex';
+
+    setTimeout(function() {
+      popupEl.style.display = 'none';
+      if (next) goToPage(current, next);
+    }, 1600);
+  }
+
+  function closePopup() {
+    var popupEl = document.getElementById('popup');
+    if (popupEl) popupEl.style.display = 'none';
+  }
+
+  // Runaway No
+  var noBtn = document.getElementById('noLove');
+  if (noBtn) {
+    noBtn.onmouseover = function() {
+      this.style.left = Math.random() * 80 + 'vw';
+      this.style.top  = Math.random() * 80 + 'vh';
+    };
+  }
+
+  // Typing
+  var loveMsg = "I love you so so so much Arusi 🌷💖";
+  var charIdx = 0;
+  var finalEl = document.getElementById('finalText');
+
+  function typeIt() {
+    if (charIdx < loveMsg.length) {
+      finalEl.innerHTML += loveMsg.charAt(charIdx);
+      charIdx++;
+      setTimeout(typeIt, 80);
+    } else {
+      var secret = document.getElementById('secretBtn');
+      if (secret) secret.style.display = 'inline-block';
+    }
+  }
+
+  var p5 = document.getElementById('p5');
+  if (p5) {
+    p5.onclick = function() {
+      if (charIdx === 0) typeIt();
+    };
+  }
+
+  // Secret popup
+  var secretBtn = document.getElementById('secretBtn');
+  if (secretBtn) {
+    secretBtn.onclick = function() {
+      showPopup("Arusi 🌷&lt;br&gt;You are my favorite person 💖&lt;br&gt;You make my heart smile every day 🫶&lt;br&gt;I love you endlessly 💞", null, null);
+    };
+  }
+
+  // Slideshow
+  var pics = ["arusi1.jpeg", "arusi2.jpeg", "arusi3.jpeg"];
+  var picIdx = 0;
+  var slide = document.getElementById('slide');
+  setInterval(function() {
+    if (document.getElementById('p1').classList.contains('active')) {
+      picIdx = (picIdx + 1) % pics.length;
+      if (slide) slide.src = pics[picIdx];
+    }
+  }, 4000);
+
+  // Floating
+  function spawn(emoji, sz, dur, freq) {
+    setInterval(function() {
+      var el = document.createElement('div');
+      el.className = 'float';
+      el.textContent = emoji;
+      el.style.left = Math.random() * 100 + 'vw';
+      el.style.fontSize = sz;
+      el.style.animationDuration = dur + 's';
+      document.body.appendChild(el);
+      setTimeout(function() { el.remove(); }, dur * 1000);
+    }, freq);
+  }
+  spawn('🌷', '28px', 9, 400);
+  spawn('💖', '20px', 7, 300);
+
+  // Sparkles
+  document.addEventListener('mousemove', function(e) {
+    var sp = document.createElement('div');
+    sp.className = 'sparkle';
+    sp.textContent = '✨';
+    sp.style.left = e.clientX + 'px';
+    sp.style.top  = e.clientY + 'px';
+    document.body.appendChild(sp);
+    setTimeout(function() { sp.remove(); }, 1300);
+  });
+
+  console.log("Chrome-friendly version loaded – click Yes should work now");
+</script>
+</body>
+</html>
