@@ -1,154 +1,172 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<title>For Arusi 🌷</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>For Arusi 🌷</title>
 
-<style>
-body{
-  margin:0;
-  font-family:'Poppins',sans-serif;
-  background:linear-gradient(135deg,#ffe6f0,#fffafc);
-  overflow:hidden;
-  text-align:center;
-}
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
 
-/* pages */
-.page{display:none;min-height:100vh;padding:40px 20px;}
-.page.active{display:block;}
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(135deg, #ffe6f0, #fffafc);
+      min-height: 100vh;
+      overflow: hidden;
+      text-align: center;
+      color: #333;
+    }
 
-h1,h2{color:#ff3b7a;}
+    .page {
+      display: none;
+      min-height: 100vh;
+      padding: 40px 20px;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+    .page.active { display: flex; }
 
-.glow{
-  font-size:2.4rem;
-  animation:glow 2s infinite;
-}
-@keyframes glow{
-  0%{text-shadow:0 0 5px #ff9acb;}
-  50%{text-shadow:0 0 20px #ff5fa2;}
-  100%{text-shadow:0 0 5px #ff9acb;}
-}
+    h1, h2 { color: #ff3b7a; margin: 0.4em 0; }
+    .glow {
+      font-size: 2.6rem;
+      font-weight: 700;
+      animation: glow 2s infinite alternate;
+    }
+    @keyframes glow {
+      from { text-shadow: 0 0 10px #ff9acb; }
+      to   { text-shadow: 0 0 30px #ff5fa2, 0 0 50px #ff5fa2; }
+    }
 
-button{
-  padding:14px 28px;
-  margin:10px;
-  border:none;
-  border-radius:30px;
-  background:#ff5c8a;
-  color:white;
-  font-size:1rem;
-  cursor:pointer;
-  transition:.3s;
-}
-button:hover{transform:scale(1.1);}
+    button {
+      padding: 14px 32px;
+      margin: 12px;
+      border: none;
+      border-radius: 50px;
+      background: #ff5c8a;
+      color: white;
+      font-size: 1.1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.25s;
+      box-shadow: 0 4px 15px rgba(255,92,138,0.4);
+    }
+    button:hover { transform: scale(1.08); background: #ff3b7a; }
 
-.photo{
-  width:220px;
-  border-radius:25px;
-  margin:15px;
-  box-shadow:0 15px 30px rgba(0,0,0,.25);
-}
+    .photo {
+      width: 220px;
+      max-width: 80%;
+      border-radius: 24px;
+      margin: 20px auto;
+      box-shadow: 0 15px 35px rgba(0,0,0,0.22);
+      object-fit: cover;
+    }
 
-/* floating items */
-.float{
-  position:absolute;
-  animation:floatUp 8s linear infinite;
-  pointer-events:none;
-}
-@keyframes floatUp{
-  from{transform:translateY(110vh);opacity:1;}
-  to{transform:translateY(-10vh);opacity:0;}
-}
+    /* Floating tulips & hearts */
+    .float {
+      position: absolute;
+      pointer-events: none;
+      animation: floatUp linear forwards;
+    }
+    @keyframes floatUp {
+      from { transform: translateY(110vh) rotate(0deg); opacity: 1; }
+      to   { transform: translateY(-20vh) rotate(360deg); opacity: 0; }
+    }
 
-/* popup */
-#popup{
-  display:none;
-  position:fixed;
-  inset:0;
-  background:rgba(255,200,220,.6);
-  backdrop-filter:blur(8px);
-  z-index:999;
-  align-items:center;
-  justify-content:center;
-}
-#popupBox{
-  background:#fff0f6;
-  padding:30px;
-  border-radius:25px;
-  width:80%;
-  max-width:320px;
-  box-shadow:0 20px 40px rgba(0,0,0,.3);
-  animation:pop .4s ease;
-}
-@keyframes pop{
-  from{transform:scale(.7);opacity:0;}
-  to{transform:scale(1);opacity:1;}
-}
+    /* Popup */
+    #popup {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(255, 200, 220, 0.65);
+      backdrop-filter: blur(8px);
+      z-index: 9999;
+      align-items: center;
+      justify-content: center;
+    }
+    #popupBox {
+      background: #fff0f6;
+      padding: 32px 24px;
+      border-radius: 28px;
+      width: 88%;
+      max-width: 360px;
+      box-shadow: 0 20px 50px rgba(0,0,0,0.25);
+      animation: pop 0.4s ease-out;
+    }
+    @keyframes pop {
+      from { transform: scale(0.7); opacity: 0; }
+      to   { transform: scale(1); opacity: 1; }
+    }
 
-#noLove{position:absolute;}
+    #noLove {
+      position: absolute;
+      background: #aaa;
+    }
 
-#secretBtn{
-  display:none;
-  background:#ff8fb3;
-  animation:pulse 1.5s infinite;
-}
-@keyframes pulse{
-  0%{transform:scale(1);}
-  50%{transform:scale(1.15);}
-  100%{transform:scale(1);}
-}
+    #secretBtn {
+      display: none;
+      background: #ff8fb3;
+      animation: pulse 1.6s infinite;
+    }
+    @keyframes pulse {
+      0%,100% { transform: scale(1); }
+      50%     { transform: scale(1.12); }
+    }
 
-/* sparkle cursor */
-.sparkle{
-  position:fixed;
-  pointer-events:none;
-  animation:spark 1s linear forwards;
-}
-@keyframes spark{
-  from{opacity:1;transform:scale(1);}
-  to{opacity:0;transform:scale(0);}
-}
-</style>
+    /* Sparkle cursor */
+    .sparkle {
+      position: fixed;
+      pointer-events: none;
+      font-size: 1.4rem;
+      animation: spark 1.1s forwards;
+    }
+    @keyframes spark {
+      to { opacity: 0; transform: scale(0.2) translateY(-30px); }
+    }
+  </style>
 </head>
-
 <body>
 
 <!-- PAGE 1 -->
 <div class="page active" id="p1">
-  <img id="slide" class="photo" src="arusi1.jpeg">
+  <img id="slide" class="photo" src="arusi1.jpeg" alt="Arusi">
   <h1 class="glow">Arusi 🌷</h1>
   <h2>Will you be my Valentine? 💖</h2>
   <button onclick="go(1,2)">Yes 💘</button>
 </div>
 
-<!-- PAGE 2 -->
+<!-- PAGE 2 – What do I like most? -->
 <div class="page" id="p2">
   <h2>What do I like the most? 🤭</h2>
-  <button onclick="popup('Wrong 😝<br>Not talking to you 💔',2,2)">Momos</button>
-  <button onclick="popup('Nopeee 😆<br>Try again 💕',2,2)">Pizza</button>
-  <button onclick="popup('Yayyy 😭💖<br>I love you 🌷',2,4)">Pulau</button>
+  <button onclick="showPopup('Wrong 😝<br>Not talking to you 💔', 2, 2)">Momos</button>
+  <button onclick="showPopup('Nopeee 😆<br>Try again 💕', 2, 2)">Pizza</button>
+  <button onclick="showPopup('Yayyy 😭💖<br>I love you so much 🌷', 2, 4)">Pulau</button>
 </div>
 
-<!-- PAGE 3 -->
+<!-- PAGE 3 – Do you love me? -->
 <div class="page" id="p3">
   <h2>Do you love me? 🥺</h2>
-  <button onclick="popup('I knew it 😭💞',3,4)">Yes 💖</button>
+  <button onclick="showPopup('I knew it 😭💞', 3, 4)">Yes 💖</button>
   <button id="noLove">No 🙃</button>
 </div>
 
-<!-- PAGE 4 -->
+<!-- PAGE 4 – Birth year -->
 <div class="page" id="p4">
-  <img src="arusi2.jpeg" class="photo">
+  <img src="arusi2.jpeg" class="photo" alt="Arusi 2">
   <h2>My birth year? 🎂</h2>
-  <button onclick="popup('Aww wrong 😔',4,4)">2006</button>
-  <button onclick="popup('Nope 😅',4,4)">2009</button>
-  <button onclick="popup('Almost 😆',4,4)">2005</button>
-  <button onclick="popup('You know me so well 🥹💖',4,5)">2007</button>
+  <button onclick="showPopup('Aww wrong 😔', 4, 4)">2006</button>
+  <button onclick="showPopup('Nope 😅', 4, 4)">2009</button>
+  <button onclick="showPopup('Almost 😆', 4, 4)">2005</button>
+  <button onclick="showPopup('You know me so well 🥹💖', 4, 5)">2007</button>
 </div>
 
 <!-- FINAL PAGE -->
 <div class="page" id="p5">
-  <img src="arusi3.jpeg" class="photo">
+  <img src="arusi3.jpeg" class="photo" alt="Arusi 3">
   <h1 id="finalText"></h1>
   <button id="secretBtn">Final secret 💌</button>
 </div>
@@ -157,92 +175,106 @@ button:hover{transform:scale(1.1);}
 <div id="popup">
   <div id="popupBox">
     <h2 id="popupText"></h2>
-    <div style="font-size:2rem;">🌷💖✨</div><br>
+    <div style="font-size: 2.5rem; margin: 16px 0;">🌷💖✨</div>
     <button onclick="closePopup()">Okay 🥰</button>
   </div>
 </div>
 
 <script>
-function go(from,to){
-  document.getElementById("p"+from).classList.remove("active");
-  document.getElementById("p"+to).classList.add("active");
-}
+  // Page navigation
+  function go(from, to) {
+    document.getElementById(p${from}).classList.remove('active');
+    document.getElementById(p${to}).classList.add('active');
+  }
 
-function popup(msg,from,to){
-  popupText.innerHTML=msg;
-  popup.style.display="flex";
-  setTimeout(()=>{
-    popup.style.display="none";
-    go(from,to);
-  },1200);
-}
+  // Show popup + auto-advance after delay
+  function showPopup(message, currentPage, nextPage) {
+    document.getElementById('popupText').innerHTML = message;
+    document.getElementById('popup').style.display = 'flex';
 
-function closePopup(){
-  popup.style.display="none";
-}
+    setTimeout(() => {
+      closePopup();
+      if (nextPage) go(currentPage, nextPage);
+    }, 1400);
+  }
 
-/* no button dodge */
-noLove.onmouseover=()=>{
-  noLove.style.left=Math.random()*70+"vw";
-  noLove.style.top=Math.random()*70+"vh";
-};
+  function closePopup() {
+    document.getElementById('popup').style.display = 'none';
+  }
 
-/* final typing */
-const text="I love you so so so much Arusi 🌷💖";
-let i=0;
-function type(){
-  if(i<text.length){
-    finalText.innerHTML+=text[i++];
-    setTimeout(type,90);
-  }else secretBtn.style.display="inline-block";
-}
-p5.onclick=type;
+  // Make "No" button run away
+  const noBtn = document.getElementById('noLove');
+  noBtn.onmouseover = () => {
+    noBtn.style.left = Math.random() * 75 + 'vw';
+    noBtn.style.top  = Math.random() * 75 + 'vh';
+  };
 
-secretBtn.onclick=()=>{
-  popupText.innerHTML=
-  "Arusi 🌷<br>You are my favorite person 💖<br>You make my heart smile every day 🫶<br>I love you endlessly 💞";
-  popup.style.display="flex";
-};
+  // Typing animation on final page
+  const loveMessage = "I love you so so so much Arusi 🌷💖";
+  let charIndex = 0;
+  const finalText = document.getElementById('finalText');
 
-/* slideshow */
-const slides=["arusi1.jpeg","arusi2.jpeg","arusi3.jpeg"];
-let s=0;
-setInterval(()=>{
-  slide.src=slides[s=(s+1)%slides.length];
-},3000);
+  function typeWriter() {
+    if (charIndex < loveMessage.length) {
+      finalText.innerHTML += loveMessage.charAt(charIndex);
+      charIndex++;
+      setTimeout(typeWriter, 80);
+    } else {
+      document.getElementById('secretBtn').style.display = 'inline-block';
+    }
+  }
 
-/* tulips */
-setInterval(()=>{
-  const t=document.createElement("div");
-  t.className="float";
-  t.innerHTML="🌷";
-  t.style.left=Math.random()*100+"vw";
-  t.style.fontSize="24px";
-  document.body.appendChild(t);
-  setTimeout(()=>t.remove(),8000);
-},300);
+  // Start typing when final page is clicked (or shown)
+  document.getElementById('p5').addEventListener('click', () => {
+    if (charIndex === 0) typeWriter();
+  });
 
-/* hearts */
-setInterval(()=>{
-  const h=document.createElement("div");
-  h.className="float";
-  h.innerHTML="💖";
-  h.style.left=Math.random()*100+"vw";
-  h.style.fontSize="18px";
-  document.body.appendChild(h);
-  setTimeout(()=>h.remove(),7000);
-},250);
+  // Secret message
+  document.getElementById('secretBtn').onclick = () => {
+    document.getElementById('popupText').innerHTML =
+      "Arusi 🌷<br>You are my favorite person 💖<br>You make my heart smile every day 🫶<br>I love you endlessly 💞";
+    document.getElementById('popup').style.display = 'flex';
+  };
 
-/* sparkle cursor */
-document.onmousemove=e=>{
-  const s=document.createElement("div");
-  s.className="sparkle";
-  s.innerHTML="✨";
-  s.style.left=e.clientX+"px";
-  s.style.top=e.clientY+"px";
-  document.body.appendChild(s);
-  setTimeout(()=>s.remove(),1000);
-};
+  // Image slideshow (only on page 1)
+  const images = ['arusi1.jpeg', 'arusi2.jpeg', 'arusi3.jpeg'];
+  let imgIndex = 0;
+  const slideImg = document.getElementById('slide');
+
+  setInterval(() => {
+    if (document.getElementById('p1').classList.contains('active')) {
+      imgIndex = (imgIndex + 1) % images.length;
+      slideImg.src = images[imgIndex];
+    }
+  }, 3800);
+
+  // Floating tulips & hearts
+  function createFloat(emoji, size = '24px', duration = 8000, interval = 300) {
+    setInterval(() => {
+      const el = document.createElement('div');
+      el.className = 'float';
+      el.innerHTML = emoji;
+      el.style.left = Math.random() * 100 + 'vw';
+      el.style.fontSize = size;
+      el.style.animationDuration = (duration / 1000) + 's';
+      document.body.appendChild(el);
+      setTimeout(() => el.remove(), duration);
+    }, interval);
+  }
+
+  createFloat('🌷', '28px', 9000, 350);
+  createFloat('💖', '20px', 7500, 280);
+
+  // Sparkle on mouse move
+  document.addEventListener('mousemove', e => {
+    const s = document.createElement('div');
+    s.className = 'sparkle';
+    s.innerHTML = '✨';
+    s.style.left = e.clientX + 'px';
+    s.style.top  = e.clientY + 'px';
+    document.body.appendChild(s);
+    setTimeout(() => s.remove(), 1100);
+  });
 </script>
 
 </body>
