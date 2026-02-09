@@ -41,7 +41,7 @@
     }
     @keyframes glow {
       from { text-shadow: 0 0 10px #ff9acb, 0 0 20px #ff5fa2; }
-      to { text-shadow: 0 0 25px #ff5fa2, 0 0 45px #ff5fa2; }
+      to   { text-shadow: 0 0 25px #ff5fa2, 0 0 45px #ff5fa2; }
     }
 
     .heartbeat {
@@ -260,8 +260,9 @@
     <button onclick="closePopup()">Okay 🥰</button>
   </div>
 </div>
-  <script>
-  console.log("=== SCRIPT START – CLEAN BUILD ===");
+
+<script>
+  console.log("=== SCRIPT LOADED – FINAL VERSION ===");
 
   let chocoCount = 0;
 
@@ -273,24 +274,18 @@
       countEl.textContent = chocoCount;
       counter.style.display = 'block';
     }
-    console.log("Added chocolates: total now " + chocoCount);
   }
 
   function goToPage(from, to) {
-    console.log("goToPage called: " + from + " → " + to);
     let pFrom = document.getElementById('p' + from);
     let pTo = document.getElementById('p' + to);
     if (pFrom && pTo) {
       pFrom.classList.remove('active');
       pTo.classList.add('active');
-      console.log("Page switched");
-    } else {
-      console.error("Page not found: p" + from + " or p" + to);
     }
   }
 
   function showPopup(message, current, next) {
-    console.log("Showing popup: " + message);
     let popup = document.getElementById('popup');
     let text = document.getElementById('popupText');
     if (!popup || !text) return;
@@ -338,7 +333,6 @@
       document.getElementById('fortuneBtn').style.display = 'inline-block';
       document.getElementById('flowerPicker').style.display = 'block';
       addChoco(20);
-      console.log("Typing finished");
     }
   }
 
@@ -390,7 +384,6 @@
 
   function changeColor(color) {
     document.body.style.background = linear-gradient(135deg, ${color}, #fffafc);
-    console.log("Color changed to " + color);
   }
 
   var pics = ["arusi1.jpeg", "arusi2.jpeg", "arusi3.jpeg"];
@@ -403,45 +396,32 @@
     }
   }, 4000);
 
-  // Floating - safe version
-function spawn(emoji, sz, dur, freq) {
-  setInterval(function() {
-    var el = document.createElement('div');
-    el.className = 'float';
-    el.textContent = emoji;
-    el.style.left = Math.random() * 100 + 'vw';
-    el.style.fontSize = sz;
-    el.style.animationDuration = dur + 's';
-    document.body.appendChild(el);
-    setTimeout(function() { el.remove(); }, dur * 1000);
-  }, freq);
-}
-spawn('🌷', '28px', 9, 400);
-spawn('💖', '20px', 7, 300);
-
-// Slideshow
-var pics = ["arusi1.jpeg", "arusi2.jpeg", "arusi3.jpeg"];
-var picIdx = 0;
-var slide = document.getElementById('slide');
-setInterval(function() {
-  if (document.getElementById('p1').classList.contains('active')) {
-    picIdx = (picIdx + 1) % pics.length;
-    if (slide) slide.src = pics[picIdx];
+  function spawn(emoji, sz, dur, freq) {
+    setInterval(function() {
+      var el = document.createElement('div');
+      el.className = 'float';
+      el.textContent = emoji;
+      el.style.left = Math.random() * 100 + 'vw';
+      el.style.fontSize = sz;
+      el.style.animationDuration = dur + 's';
+      document.body.appendChild(el);
+      setTimeout(function() { el.remove(); }, dur * 1000);
+    }, freq);
   }
-}, 4000);
+  spawn('🌷', '28px', 9, 400);
+  spawn('💖', '20px', 7, 300);
 
-// Sparkles
-document.addEventListener('mousemove', function(e) {
-  var sp = document.createElement('div');
-  sp.className = 'sparkle';
-  sp.textContent = '✨';
-  sp.style.left = e.clientX + 'px';
-  sp.style.top = e.clientY + 'px';
-  document.body.appendChild(sp);
-  setTimeout(function() { sp.remove(); }, 1300);
-});
+  document.addEventListener('mousemove', function(e) {
+    var sp = document.createElement('div');
+    sp.className = 'sparkle';
+    sp.textContent = '✨';
+    sp.style.left = e.clientX + 'px';
+    sp.style.top = e.clientY + 'px';
+    document.body.appendChild(sp);
+    setTimeout(function() { sp.remove(); }, 1300);
+  });
 
-  console.log("=== SCRIPT END – ALL FUNCTIONS DEFINED ===");
-  </script>
+  console.log("=== PAGE FULLY LOADED – ALL FEATURES READY ===");
+</script>
 </body>
 </html>
