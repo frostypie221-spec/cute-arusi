@@ -1,1 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Test Page</title>
+  <style>
+    body { font-family:sans-serif; text-align:center; padding:50px; background:#ffe6f0; }
+    button { padding:15px 30px; font-size:1.2rem; margin:10px; background:#ff5c8a; color:white; border:none; border-radius:30px; cursor:pointer; }
+  </style>
+</head>
+<body>
 
+<h1>Test – Click should work</h1>
+
+<button onclick="goToNext()">Go to next page</button>
+
+<p id="result" style="font-size:1.4rem; color:#333; margin-top:30px;"></p>
+
+<script>
+  console.log("SCRIPT LOADED – TEST VERSION 2026");
+
+  function goToNext() {
+    console.log("goToNext called successfully!");
+    document.getElementById('result').innerHTML = "YES! Button works 🎉<br>goToPage function is alive.";
+  }
+
+  console.log("goToNext function defined");
+</script>
+
+</body>
+</html>
