@@ -121,15 +121,32 @@
       box-shadow: 0 2px 8px rgba(0,0,0,0.1);
     }
 
-    .kiss-fly, .firework {
+    .kiss-fly {
       position: absolute;
       pointer-events: none;
-      font-size: 2rem;
-      animation: kissFly 1.5s forwards;
+      font-size: 2.5rem;
+      animation: kissFly 1.8s forwards;
     }
     @keyframes kissFly {
       0% { transform: translateY(0); opacity: 1; }
-      100% { transform: translateY(-120px); opacity: 0; }
+      100% { transform: translateY(-150px); opacity: 0; }
+    }
+
+    .teddy-shake {
+      animation: shake 0.8s;
+    }
+    @keyframes shake {
+      0% { transform: translate(1px, 1px) rotate(0deg); }
+      10% { transform: translate(-1px, -2px) rotate(-1deg); }
+      20% { transform: translate(-3px, 0px) rotate(1deg); }
+      30% { transform: translate(3px, 2px) rotate(0deg); }
+      40% { transform: translate(1px, -1px) rotate(1deg); }
+      50% { transform: translate(-1px, 2px) rotate(-1deg); }
+      60% { transform: translate(-3px, 1px) rotate(0deg); }
+      70% { transform: translate(3px, 1px) rotate(-1deg); }
+      80% { transform: translate(-1px, -1px) rotate(1deg); }
+      90% { transform: translate(1px, 2px) rotate(0deg); }
+      100% { transform: translate(1px, -2px) rotate(-1deg); }
     }
 
     #popup {
@@ -202,6 +219,24 @@
       z-index: 1;
     }
 
+    #lotteryWheel {
+      width: 180px;
+      height: 180px;
+      border-radius: 50%;
+      border: 8px solid #ff5c8a;
+      margin: 15px auto;
+      background: conic-gradient(#ff69b4 0deg 72deg, #ff1493 72deg 144deg, #c71585 144deg 216deg, #ffb6c1 216deg 288deg, #ff69b4 288deg 360deg);
+      position: relative;
+      overflow: hidden;
+      transition: transform 4s ease-out;
+    }
+
+    #lotteryResult {
+      margin: 15px 0;
+      font-size: 1.4rem;
+      color: #ff3b7a;
+    }
+
     @media (max-width: 420px) {
       h1, h2 { font-size: 1.7rem; margin: 8px 0; }
       .photo { width: 170px; margin: 8px auto; }
@@ -212,6 +247,7 @@
         margin: 8px 0;
       }
       #bouquet button { padding: 7px 14px; font-size: 0.85rem; }
+      #lotteryWheel { width: 150px; height: 150px; }
     }
   </style>
 </head>
@@ -304,23 +340,27 @@
     <p id="moodText"></p>
   </div>
 
-  <!-- Kiss Countdown -->
-  <button id="kissCountdownBtn" style="display:none; margin:15px 0; background:#ff69b4;">Get ready for a kiss 😘</button>
-  <div id="countdownDisplay" style="display:none; font-size:2.5rem; color:#ff1493; margin:10px 0;"></div>
+  <!-- Teddy's Love Lottery -->
+  <button id="lotteryBtn" style="display:none; margin:15px 0; background:#ff69b4;">Spin Teddy's Love Lottery 🎰</button>
+  <div id="lotteryWheel" style="display:none;"></div>
+  <div id="lotteryResult" style="display:none; margin:10px 0; font-size:1.4rem; color:#ff3b7a;"></div>
 
-  <!-- Secret Love Code -->
-  <div id="codeSection" style="display:none; margin:15px 0;">
-    <input type="text" id="codeInput" placeholder="Enter teddy's secret code">
-    <button onclick="checkCode()">Submit 💕</button>
-    <p id="codeResult" style="margin-top:10px; font-size:1.2rem;"></p>
+  <!-- Daily Wish Jar -->
+  <div id="wishJar" style="display:none; margin:15px 0;">
+    <input type="text" id="wishInput" placeholder="Add a wish for us...">
+    <button onclick="addWish()">Add to Jar 🫙</button>
+    <div id="wishList" style="max-width:400px; margin:10px auto; text-align:left;"></div>
   </div>
 
-  <!-- Daily Love Reminder -->
-  <button id="dailyReminderBtn" style="display:none; margin:15px 0; background:#ff85ad;">Remind me why you love me today 💖</button>
+  <!-- Arusi's Star Map -->
+  <button id="starMapBtn" style="display:none; margin:15px 0; background:#0000ff; color:white;">See our stars ✨</button>
+  <div id="starMap" style="display:none; height:100px; width:100%; position:relative; background:#000; border-radius:15px; overflow:hidden;">
+    <div id="stars" style="position:absolute; top:0; left:0; width:100%; height:100%;"></div>
+  </div>
 
   <!-- Teddy Says -->
-  <div style="position:relative; margin:30px auto; width:160px; cursor:pointer;">
-    <img src="https://i.imgur.com/8kPqL9m.png" style="width:100%;" onclick="teddyTalk()" alt="Teddy">
+  <div id="teddyContainer" style="position:relative; margin:30px auto; width:160px; cursor:pointer;">
+    <img src="https://i.imgur.com/8kPqL9m.png" style="width:100%;" onclick="teddyTap()" alt="Teddy">
     <div id="teddyBubble">
       <span id="teddyMsg"></span>
     </div>
@@ -360,9 +400,11 @@
 </div>
 
 <script>
-  console.log("=== SCRIPT LOADED – ALL IDEAS MERGED ===");
+  console.log("=== SCRIPT LOADED – ALL IDEAS ADDED ===");
 
   let chocoCount = 0;
+  let tapCount = 0;
+  let tapTimer = null;
 
   function addChoco(amount) {
     chocoCount += amount;
@@ -432,9 +474,9 @@
       document.getElementById('flowerPicker').style.display = 'block';
       document.getElementById('whyBtn').style.display = 'inline-block';
       document.getElementById('moodBtn').style.display = 'inline-block';
-      document.getElementById('kissCountdownBtn').style.display = 'inline-block';
-      document.getElementById('codeSection').style.display = 'block';
-      document.getElementById('dailyReminderBtn').style.display = 'inline-block';
+      document.getElementById('lotteryBtn').style.display = 'inline-block';
+      document.getElementById('wishJar').style.display = 'block';
+      document.getElementById('starMapBtn').style.display = 'inline-block';
       addChoco(20);
     }
   }
@@ -478,9 +520,9 @@
       "Teddy is doing happy dances because you're his favorite 🌷💃",
       "Teddy is hugging his pillow pretending it's you 🤗🧸"
     ];
-    document.getElementById('moodText').textContent = moods[Math.floor(Math.random() * moods.length)];
-    document.getElementById('moodResult').style.display = 'block';
-    setTimeout(() => { document.getElementById('moodResult').style.display = 'none'; }, 5000);
+    document.getElementById('teddyMsg').textContent = moods[Math.floor(Math.random() * moods.length)];
+    document.getElementById('teddyBubble').style.display = 'block';
+    setTimeout(() => { document.getElementById('teddyBubble').style.display = 'none'; }, 6000);
   }
 
   let moodBtn = document.getElementById('moodBtn');
@@ -566,74 +608,110 @@
     }, 100);
   }
 
-  // Kiss Countdown
-  function startKissCountdown() {
-    let countdown = 5;
-    let display = document.getElementById('countdownDisplay');
-    display.style.display = 'block';
-    display.textContent = countdown;
-    let interval = setInterval(() => {
-      countdown--;
-      display.textContent = countdown;
-      if (countdown <= 0) {
-        clearInterval(interval);
-        display.textContent = 'Muah! 💋';
-        // Fly kiss
-        let kiss = document.createElement('div');
-        kiss.className = 'kiss-fly';
-        kiss.textContent = '😘';
-        kiss.style.left = '50%';
-        kiss.style.top = '50%';
-        document.body.appendChild(kiss);
-        setTimeout(() => kiss.remove(), 1500);
-        setTimeout(() => { display.style.display = 'none'; }, 2000);
-      }
-    }, 1000);
+  // Teddy's Love Lottery
+  function spinLottery() {
+    let wheel = document.getElementById('lotteryWheel');
+    let result = document.getElementById('lotteryResult');
+    wheel.style.display = 'block';
+    result.style.display = 'none';
+
+    const prizes = [
+      "Extra 10 kisses 😘",
+      "Teddy hug attack 🧸🤗",
+      "Chocolate rain 🍫🍫🍫",
+      "Forever mode unlocked 💞",
+      "Arusi's smile bonus 🌷✨"
+    ];
+
+    wheel.style.transform = 'rotate(0deg)';
+    setTimeout(() => {
+      let randomDeg = Math.floor(Math.random() * 360) + 720 * 3;
+      wheel.style.transform = `rotate(${randomDeg}deg)`;
+      setTimeout(() => {
+        let prize = prizes[Math.floor(Math.random() * prizes.length)];
+        result.textContent = prize;
+        result.style.display = 'block';
+        if (prize.includes('kisses')) addChoco(10);
+      }, 4000);
+    }, 100);
   }
 
-  let kissCountdownBtn = document.getElementById('kissCountdownBtn');
-  if (kissCountdownBtn) kissCountdownBtn.onclick = startKissCountdown;
+  let lotteryBtn = document.getElementById('lotteryBtn');
+  if (lotteryBtn) lotteryBtn.onclick = spinLottery;
 
-  // Secret Love Code
-  function checkCode() {
-    let input = document.getElementById('codeInput').value.trim().toLowerCase();
-    let result = document.getElementById('codeResult');
-    if (input === '2007' || input === 'arusi') {
-      addChoco(10);
-      result.textContent = 'Code accepted! Bonus kisses unlocked 💖😘';
-      result.style.color = '#ff1493';
-      // Fly kiss
-      let kiss = document.createElement('div');
-      kiss.className = 'kiss-fly';
-      kiss.textContent = '💕';
-      kiss.style.left = '50%';
-      kiss.style.top = '50%';
-      document.body.appendChild(kiss);
-      setTimeout(() => kiss.remove(), 1500);
-    } else {
-      result.textContent = 'Wrong code... try again cutie 🥺';
-      result.style.color = '#ff3b7a';
+  // Daily Wish Jar
+  function addWish() {
+    let input = document.getElementById('wishInput');
+    let wish = input.value.trim();
+    if (wish) {
+      let list = document.getElementById('wishList');
+      let p = document.createElement('p');
+      p.textContent = wish;
+      p.style.opacity = '0';
+      p.style.transition = 'opacity 1s';
+      p.style.margin = '8px 0';
+      list.appendChild(p);
+      setTimeout(() => { p.style.opacity = '1'; }, 100);
+      input.value = '';
+
+      // Floating wish note
+      let el = document.createElement('div');
+      el.className = 'love-note';
+      el.textContent = wish;
+      el.style.left = Math.random() * 100 + 'vw';
+      el.style.animationDuration = '10s';
+      document.body.appendChild(el);
+      setTimeout(() => el.remove(), 10000);
     }
   }
 
-  let codeSection = document.getElementById('codeSection');
-  if (codeSection) codeSection.style.display = 'block';
+  // Arusi's Star Map
+  function showStarMap() {
+    let map = document.getElementById('starMap');
+    let stars = document.getElementById('stars');
+    map.style.display = 'block';
+    stars.innerHTML = '';
 
-  // Daily Love Reminder
-  function dailyReminder() {
-    const reminders = [
-      "Because your laugh makes my day brighter 🌞",
-      "Because you're the sweetest person I know 🍭",
-      "Because teddy says you're perfect 🧸❤️",
-      "Because every moment with you feels like magic ✨",
-      "Because I can't imagine a day without you 💕"
+    const letters = "ARUSI";
+    const positions = [
+      {left:10, top:30}, {left:30, top:20}, {left:50, top:35},
+      {left:70, top:25}, {left:85, top:40}
     ];
-    let msg = reminders[Math.floor(Math.random() * reminders.length)];
-    alert(msg + "\n\nLove you endlessly 😘");
+
+    letters.split('').forEach((letter, i) => {
+      let star = document.createElement('div');
+      star.style.position = 'absolute';
+      star.style.left = positions[i].left + '%';
+      star.style.top = positions[i].top + '%';
+      star.style.fontSize = '1.8rem';
+      star.style.color = '#fff';
+      star.style.animation = 'twinkle 3s infinite';
+      star.textContent = letter;
+      stars.appendChild(star);
+    });
   }
 
-  let dailyReminderBtn = document.getElementById('dailyReminderBtn');
-  if (dailyReminderBtn) dailyReminderBtn.onclick = dailyReminder;
+  let starMapBtn = document.getElementById('starMapBtn');
+  if (starMapBtn) starMapBtn.onclick = showStarMap;
+
+  // Teddy Jealous Mode (tap 3 times)
+  function teddyTap() {
+    tapCount++;
+    if (tapCount === 1) {
+      tapTimer = setTimeout(() => { tapCount = 0; }, 3000);
+    }
+    if (tapCount === 3) {
+      clearTimeout(tapTimer);
+      tapCount = 0;
+      document.getElementById('teddyMsg').textContent = "Hey! Stop being so cute, I'm getting jealous 😤🧸";
+      document.getElementById('teddyBubble').style.display = 'block';
+      document.getElementById('teddyContainer').classList.add('teddy-shake');
+      setTimeout(() => {
+        document.getElementById('teddyBubble').style.display = 'none';
+        document.getElementById('teddyContainer').classList.remove('teddy-shake');
+      }, 3000);
+    }
+  }
 
   var pics = ["arusi1.jpeg", "arusi2.jpeg", "arusi3.jpeg"];
   var picIdx = 0;
@@ -670,7 +748,7 @@
     setTimeout(function() { sp.remove(); }, 1300);
   });
 
-  console.log("=== PAGE FULLY LOADED – ALL IDEAS ADDED ===");
+  console.log("=== PAGE FULLY LOADED – ALL FEATURES READY ===");
 </script>
 </body>
 </html>
