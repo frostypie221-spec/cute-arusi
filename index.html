@@ -14,8 +14,8 @@
     body {
       font-family: 'Poppins', sans-serif;
       background: linear-gradient(135deg, #ffe6f0, #fffafc);
-      height: 100vh;
-      overflow: hidden;
+      min-height: 100vh;
+      overflow-x: hidden;
       text-align: center;
       color: #222;
       transition: background 1s ease;
@@ -23,16 +23,23 @@
 
     .page {
       display: none;
-      height: 100vh;
+      min-height: 100vh;
       padding: 15px 10px;
       flex-direction: column;
       align-items: center;
-      justify-content: space-between;
+      overflow-x: hidden;
+    }
+    .page:not(#p7) {
+      height: 100vh;
       overflow: hidden;
     }
     .page.active { display: flex; }
+    #p7 {
+      overflow-y: auto;
+      padding-bottom: 100px;
+    }
 
-    h1, h2 { color: #ff3b7a; margin: 10px 0; font-size: 2rem; }
+    h1, h2 { color: #ff3b7a; margin: 8px 0; font-size: 2rem; }
     .glow {
       font-size: 2.6rem;
       font-weight: 700;
@@ -40,7 +47,7 @@
     }
     @keyframes glow {
       from { text-shadow: 0 0 10px #ff9acb, 0 0 20px #ff5fa2; }
-      to { text-shadow: 0 0 25px #ff5fa2, 0 0 45px #ff5fa2; }
+      to   { text-shadow: 0 0 25px #ff5fa2, 0 0 45px #ff5fa2; }
     }
 
     .heartbeat {
@@ -56,27 +63,37 @@
       max-width: 80%;
       border-radius: 24px;
       margin: 10px auto;
-      box-shadow: 0 12px 30px rgba(0,0,0,0.2);
+      box-shadow: 0 10px 25px rgba(0,0,0,0.2);
       z-index: 1;
     }
 
     button {
-      padding: 10px 24px;
-      margin: 6px;
+      padding: 10px 22px;
+      margin: 5px 4px;
       border: none;
       border-radius: 50px;
       background: #ff5c8a;
       color: white;
-      font-size: 0.95rem;
+      font-size: 0.9rem;
       font-weight: 600;
       cursor: pointer;
       transition: all 0.3s;
-      box-shadow: 0 5px 15px rgba(255,92,138,0.4);
-      min-width: 140px;
-      max-width: 80%;
+      box-shadow: 0 4px 12px rgba(255,92,138,0.4);
+      min-width: 130px;
+      max-width: 90%;
       z-index: 1;
     }
-    button:hover { transform: scale(1.08); background: #ff3b7a; }
+    button:hover { transform: scale(1.06); background: #ff3b7a; }
+
+    input[type="text"] {
+      padding: 10px;
+      margin: 10px;
+      border-radius: 12px;
+      border: 1px solid #ff5c8a;
+      font-size: 1rem;
+      width: 200px;
+      max-width: 80%;
+    }
 
     .dodge-btn {
       transition: all 0.15s;
@@ -85,7 +102,7 @@
     .float, .love-note {
       position: fixed;
       top: 100vh;
-      z-index: -1;                     /* behind everything */
+      z-index: -1;
       pointer-events: none;
       animation: floatUp linear forwards;
     }
@@ -96,12 +113,23 @@
 
     .love-note {
       font-family: 'Caveat', cursive;
-      font-size: 1.4rem;
+      font-size: 1.3rem;
       color: #ff3b7a;
       background: rgba(255,255,255,0.6);
-      padding: 8px 15px;
-      border-radius: 15px;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      padding: 6px 12px;
+      border-radius: 12px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+
+    .kiss-fly, .firework {
+      position: absolute;
+      pointer-events: none;
+      font-size: 2rem;
+      animation: kissFly 1.5s forwards;
+    }
+    @keyframes kissFly {
+      0% { transform: translateY(0); opacity: 1; }
+      100% { transform: translateY(-120px); opacity: 0; }
     }
 
     #popup {
@@ -116,11 +144,11 @@
     }
     #popupBox {
       background: #fff5f9;
-      padding: 25px 20px;
-      border-radius: 26px;
+      padding: 22px 18px;
+      border-radius: 24px;
       width: 90%;
       max-width: 340px;
-      box-shadow: 0 15px 45px rgba(0,0,0,0.25);
+      box-shadow: 0 12px 40px rgba(0,0,0,0.25);
       animation: pop 0.4s ease;
       z-index: 10000;
     }
@@ -132,34 +160,34 @@
     #teddyBubble, #moodResult {
       display: none;
       position: absolute;
-      top: -100px;
+      top: -90px;
       left: 50%;
       transform: translateX(-50%);
       background: #fff;
-      padding: 15px 20px;
-      border-radius: 20px;
+      padding: 12px 18px;
+      border-radius: 18px;
       box-shadow: 0 5px 15px rgba(0,0,0,0.2);
-      min-width: 240px;
-      font-size: 1.1rem;
+      min-width: 220px;
+      font-size: 1rem;
       z-index: 10;
     }
     #teddyBubble:after, #moodResult:after {
       content: '';
       position: absolute;
-      bottom: -10px;
+      bottom: -8px;
       left: 50%;
       transform: translateX(-50%);
       width: 0;
       height: 0;
-      border-left: 12px solid transparent;
-      border-right: 12px solid transparent;
-      border-top: 12px solid white;
+      border-left: 10px solid transparent;
+      border-right: 10px solid transparent;
+      border-top: 10px solid white;
     }
 
     .sparkle {
       position: fixed;
       pointer-events: none;
-      font-size: 1.6rem;
+      font-size: 1.5rem;
       animation: spark 1.3s forwards;
       z-index: -1;
     }
@@ -168,21 +196,22 @@
     .garden-plant {
       position: absolute;
       bottom: 0;
-      font-size: 3rem;
+      font-size: 2.8rem;
       transform: translateY(100%);
       transition: transform 2s ease-out;
       z-index: 1;
     }
 
     @media (max-width: 420px) {
-      h1, h2 { font-size: 1.8rem; margin: 10px 0; }
-      .photo { width: 180px; margin: 10px auto; }
-      button { padding: 10px 20px; font-size: 0.9rem; min-width: 130px; }
+      h1, h2 { font-size: 1.7rem; margin: 8px 0; }
+      .photo { width: 170px; margin: 8px auto; }
+      button { padding: 9px 18px; font-size: 0.85rem; min-width: 120px; }
+      input[type="text"] { width: 180px; font-size: 0.9rem; }
       #chocoCounter, #bouquet, #fortune, #whyList, #moodResult, #flowerPicker, #garden {
-        font-size: 1.1rem;
-        margin: 10px 0;
+        font-size: 1rem;
+        margin: 8px 0;
       }
-      #bouquet button { padding: 8px 16px; font-size: 0.9rem; }
+      #bouquet button { padding: 7px 14px; font-size: 0.85rem; }
     }
   </style>
 </head>
@@ -237,7 +266,7 @@
   <button onclick="showPopup('You know me so well 🥹💖', 6, 7); addChoco(15); addPlant()">2007</button>
 </div>
 
-<!-- FINAL PAGE -->
+<!-- FINAL PAGE (scrollable) -->
 <div class="page" id="p7">
   <img src="arusi3.jpeg" class="photo" alt="Arusi">
   <h1 id="finalText" class="heartbeat" style="font-family: 'Caveat', cursive; font-size: 3rem; margin: 15px 0;"></h1>
@@ -275,6 +304,20 @@
     <p id="moodText"></p>
   </div>
 
+  <!-- Kiss Countdown -->
+  <button id="kissCountdownBtn" style="display:none; margin:15px 0; background:#ff69b4;">Get ready for a kiss 😘</button>
+  <div id="countdownDisplay" style="display:none; font-size:2.5rem; color:#ff1493; margin:10px 0;"></div>
+
+  <!-- Secret Love Code -->
+  <div id="codeSection" style="display:none; margin:15px 0;">
+    <input type="text" id="codeInput" placeholder="Enter teddy's secret code">
+    <button onclick="checkCode()">Submit 💕</button>
+    <p id="codeResult" style="margin-top:10px; font-size:1.2rem;"></p>
+  </div>
+
+  <!-- Daily Love Reminder -->
+  <button id="dailyReminderBtn" style="display:none; margin:15px 0; background:#ff85ad;">Remind me why you love me today 💖</button>
+
   <!-- Teddy Says -->
   <div style="position:relative; margin:30px auto; width:160px; cursor:pointer;">
     <img src="https://i.imgur.com/8kPqL9m.png" style="width:100%;" onclick="teddyTalk()" alt="Teddy">
@@ -283,13 +326,19 @@
     </div>
   </div>
 
-  <!-- Flower Color Picker -->
+  <!-- Flower Color Picker – 10 colors -->
   <div id="flowerPicker" style="margin:15px 0; display:none;">
-    <h3>Pick your flower vibe 🌷🌹</h3>
+    <h3>Pick your vibe 🌷🌹</h3>
     <button onclick="changeColor('#ff69b4')">Pink Kiss</button>
     <button onclick="changeColor('#ff1493')">Hot Love</button>
     <button onclick="changeColor('#c71585')">Deep Rose</button>
     <button onclick="changeColor('#ffb6c1')">Soft Tulip</button>
+    <button onclick="changeColor('#00ffff')">Cyan</button>
+    <button onclick="changeColor('#00ff00')">Green</button>
+    <button onclick="changeColor('#0000ff')">Blue</button>
+    <button onclick="changeColor('#800080')">Purple</button>
+    <button onclick="changeColor('#ffff00')">Yellow</button>
+    <button onclick="changeColor('#ffa500')">Orange</button>
     <button onclick="changeColor('#ffe6f0')">Reset</button>
   </div>
 
@@ -311,7 +360,7 @@
 </div>
 
 <script>
-  console.log("=== SCRIPT LOADED – FIXED FLOATING ===");
+  console.log("=== SCRIPT LOADED – ALL IDEAS MERGED ===");
 
   let chocoCount = 0;
 
@@ -383,6 +432,9 @@
       document.getElementById('flowerPicker').style.display = 'block';
       document.getElementById('whyBtn').style.display = 'inline-block';
       document.getElementById('moodBtn').style.display = 'inline-block';
+      document.getElementById('kissCountdownBtn').style.display = 'inline-block';
+      document.getElementById('codeSection').style.display = 'block';
+      document.getElementById('dailyReminderBtn').style.display = 'inline-block';
       addChoco(20);
     }
   }
@@ -479,7 +531,7 @@
   let whyBtn = document.getElementById('whyBtn');
   if (whyBtn) whyBtn.onclick = showWhy;
 
-  // Floating love notes (fixed background)
+  // Floating love notes
   function spawnLoveNote() {
     const notes = [
       "I love you",
@@ -513,6 +565,75 @@
       plant.style.transform = 'translateY(-100%) scale(1.2)';
     }, 100);
   }
+
+  // Kiss Countdown
+  function startKissCountdown() {
+    let countdown = 5;
+    let display = document.getElementById('countdownDisplay');
+    display.style.display = 'block';
+    display.textContent = countdown;
+    let interval = setInterval(() => {
+      countdown--;
+      display.textContent = countdown;
+      if (countdown <= 0) {
+        clearInterval(interval);
+        display.textContent = 'Muah! 💋';
+        // Fly kiss
+        let kiss = document.createElement('div');
+        kiss.className = 'kiss-fly';
+        kiss.textContent = '😘';
+        kiss.style.left = '50%';
+        kiss.style.top = '50%';
+        document.body.appendChild(kiss);
+        setTimeout(() => kiss.remove(), 1500);
+        setTimeout(() => { display.style.display = 'none'; }, 2000);
+      }
+    }, 1000);
+  }
+
+  let kissCountdownBtn = document.getElementById('kissCountdownBtn');
+  if (kissCountdownBtn) kissCountdownBtn.onclick = startKissCountdown;
+
+  // Secret Love Code
+  function checkCode() {
+    let input = document.getElementById('codeInput').value.trim().toLowerCase();
+    let result = document.getElementById('codeResult');
+    if (input === '2007' || input === 'arusi') {
+      addChoco(10);
+      result.textContent = 'Code accepted! Bonus kisses unlocked 💖😘';
+      result.style.color = '#ff1493';
+      // Fly kiss
+      let kiss = document.createElement('div');
+      kiss.className = 'kiss-fly';
+      kiss.textContent = '💕';
+      kiss.style.left = '50%';
+      kiss.style.top = '50%';
+      document.body.appendChild(kiss);
+      setTimeout(() => kiss.remove(), 1500);
+    } else {
+      result.textContent = 'Wrong code... try again cutie 🥺';
+      result.style.color = '#ff3b7a';
+    }
+  }
+
+  let codeSection = document.getElementById('codeSection');
+  if (codeSection) codeSection.style.display = 'block';
+
+  // Daily Love Reminder
+  function dailyReminder() {
+    const reminders = [
+      "Because your laugh makes my day brighter 🌞",
+      "Because you're the sweetest person I know 🍭",
+      "Because teddy says you're perfect 🧸❤️",
+      "Because every moment with you feels like magic ✨",
+      "Because I can't imagine a day without you 💕"
+    ];
+    let msg = reminders[Math.floor(Math.random() * reminders.length)];
+    alert(msg + "\n\nLove you endlessly 😘");
+  }
+
+  let dailyReminderBtn = document.getElementById('dailyReminderBtn');
+  if (dailyReminderBtn) dailyReminderBtn.onclick = dailyReminder;
 
   var pics = ["arusi1.jpeg", "arusi2.jpeg", "arusi3.jpeg"];
   var picIdx = 0;
@@ -549,7 +670,7 @@
     setTimeout(function() { sp.remove(); }, 1300);
   });
 
-  console.log("=== PAGE FULLY LOADED – FLOATING FIXED ===");
+  console.log("=== PAGE FULLY LOADED – ALL IDEAS ADDED ===");
 </script>
 </body>
 </html>
