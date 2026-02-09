@@ -403,30 +403,43 @@
     }
   }, 4000);
 
-  function spawn(emoji, sz, dur, freq) {
-    setInterval(function() {
-      var el = document.createElement('div');
-      el.className = 'float';
-      el.textContent = emoji;
-      el.style.left = Math.random() * 100 + 'vw';
-      el.style.fontSize = sz;
-      el.style.animationDuration = dur + 's';
-      document.body.appendChild(el);
-      setTimeout(function() { el.remove(); }, dur * 1000);
-    }, freq);
-  }
-  spawn('🌷', '28px', 9, 400);
-  spawn('💖', '20px', 7, 300);
+  // Floating - safe version
+function spawn(emoji, sz, dur, freq) {
+  setInterval(function() {
+    var el = document.createElement('div');
+    el.className = 'float';
+    el.textContent = emoji;
+    el.style.left = Math.random() * 100 + 'vw';
+    el.style.fontSize = sz;
+    el.style.animationDuration = dur + 's';
+    document.body.appendChild(el);
+    setTimeout(function() { el.remove(); }, dur * 1000);
+  }, freq);
+}
+spawn('🌷', '28px', 9, 400);
+spawn('💖', '20px', 7, 300);
 
-  document.addEventListener('mousemove', function(e) {
-    var sp = document.createElement('div');
-    sp.className = 'sparkle';
-    sp.textContent = '✨';
-    sp.style.left = e.clientX + 'px';
-    sp.style.top = e.clientY + 'px';
-    document.body.appendChild(sp);
-    setTimeout(function() { sp.remove(); }, 1300);
-  });
+// Slideshow
+var pics = ["arusi1.jpeg", "arusi2.jpeg", "arusi3.jpeg"];
+var picIdx = 0;
+var slide = document.getElementById('slide');
+setInterval(function() {
+  if (document.getElementById('p1').classList.contains('active')) {
+    picIdx = (picIdx + 1) % pics.length;
+    if (slide) slide.src = pics[picIdx];
+  }
+}, 4000);
+
+// Sparkles
+document.addEventListener('mousemove', function(e) {
+  var sp = document.createElement('div');
+  sp.className = 'sparkle';
+  sp.textContent = '✨';
+  sp.style.left = e.clientX + 'px';
+  sp.style.top = e.clientY + 'px';
+  document.body.appendChild(sp);
+  setTimeout(function() { sp.remove(); }, 1300);
+});
 
   console.log("=== SCRIPT END – ALL FUNCTIONS DEFINED ===");
   </script>
