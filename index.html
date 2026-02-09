@@ -14,8 +14,8 @@
     body {
       font-family: 'Poppins', sans-serif;
       background: linear-gradient(135deg, #ffe6f0, #fffafc);
-      min-height: 100vh;
-      overflow-x: hidden;
+      height: 100vh;
+      overflow: hidden;
       text-align: center;
       color: #222;
       transition: background 1s ease;
@@ -29,7 +29,6 @@
       align-items: center;
       justify-content: space-between;
       overflow: hidden;
-      -webkit-overflow-scrolling: touch;
     }
     .page.active { display: flex; }
 
@@ -58,6 +57,7 @@
       border-radius: 24px;
       margin: 10px auto;
       box-shadow: 0 12px 30px rgba(0,0,0,0.2);
+      z-index: 1;
     }
 
     button {
@@ -74,6 +74,7 @@
       box-shadow: 0 5px 15px rgba(255,92,138,0.4);
       min-width: 140px;
       max-width: 80%;
+      z-index: 1;
     }
     button:hover { transform: scale(1.08); background: #ff3b7a; }
 
@@ -82,34 +83,25 @@
     }
 
     .float, .love-note {
-      position: absolute;
+      position: fixed;
+      top: 100vh;
+      z-index: -1;                     /* behind everything */
       pointer-events: none;
       animation: floatUp linear forwards;
     }
     @keyframes floatUp {
-      from { transform: translateY(110vh) rotate(0deg); opacity: 0.9; }
-      to { transform: translateY(-30vh) rotate(720deg); opacity: 0; }
+      from { transform: translateY(0) rotate(0deg); opacity: 0.8; }
+      to   { transform: translateY(-150vh) rotate(720deg); opacity: 0; }
     }
 
     .love-note {
       font-family: 'Caveat', cursive;
       font-size: 1.4rem;
       color: #ff3b7a;
-      background: rgba(255,255,255,0.7);
+      background: rgba(255,255,255,0.6);
       padding: 8px 15px;
       border-radius: 15px;
       box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-    }
-
-    .kiss-fly {
-      position: absolute;
-      pointer-events: none;
-      font-size: 2rem;
-      animation: kissFly 1.5s forwards;
-    }
-    @keyframes kissFly {
-      0% { transform: translateY(0); opacity: 1; }
-      100% { transform: translateY(-100px); opacity: 0; }
     }
 
     #popup {
@@ -130,6 +122,7 @@
       max-width: 340px;
       box-shadow: 0 15px 45px rgba(0,0,0,0.25);
       animation: pop 0.4s ease;
+      z-index: 10000;
     }
     @keyframes pop {
       from { transform: scale(0.7); opacity: 0; }
@@ -168,6 +161,7 @@
       pointer-events: none;
       font-size: 1.6rem;
       animation: spark 1.3s forwards;
+      z-index: -1;
     }
     @keyframes spark { to { opacity: 0; transform: scale(0.2) translateY(-50px); } }
 
@@ -177,6 +171,7 @@
       font-size: 3rem;
       transform: translateY(100%);
       transition: transform 2s ease-out;
+      z-index: 1;
     }
 
     @media (max-width: 420px) {
@@ -198,6 +193,7 @@
   <img id="slide" class="photo" src="arusi1.jpeg" alt="Arusi">
   <h1 class="glow">Arusi 🌷</h1>
   <h2>Will you be my Valentine? 💖</h2>
+  <div style="flex: 1;"></div>
   <button onclick="goToPage(1,2)">Yes 💘</button>
   <button id="noValentine" class="dodge-btn">No 😔</button>
 </div>
@@ -315,7 +311,7 @@
 </div>
 
 <script>
-  console.log("=== SCRIPT LOADED – ALL CUSTOMIZATIONS ===");
+  console.log("=== SCRIPT LOADED – FIXED FLOATING ===");
 
   let chocoCount = 0;
 
@@ -326,14 +322,6 @@
     if (counter && countEl) {
       countEl.textContent = chocoCount;
       counter.style.display = 'block';
-      // Kiss fly animation
-      let kiss = document.createElement('div');
-      kiss.className = 'kiss-fly';
-      kiss.textContent = '😘';
-      kiss.style.left = counter.getBoundingClientRect().left + 'px';
-      kiss.style.top = counter.getBoundingClientRect().top + 'px';
-      document.body.appendChild(kiss);
-      setTimeout(() => kiss.remove(), 1500);
     }
   }
 
@@ -491,7 +479,7 @@
   let whyBtn = document.getElementById('whyBtn');
   if (whyBtn) whyBtn.onclick = showWhy;
 
-  // Floating love notes
+  // Floating love notes (fixed background)
   function spawnLoveNote() {
     const notes = [
       "I love you",
@@ -561,7 +549,7 @@
     setTimeout(function() { sp.remove(); }, 1300);
   });
 
-  console.log("=== PAGE FULLY LOADED – ALL FEATURES READY ===");
+  console.log("=== PAGE FULLY LOADED – FLOATING FIXED ===");
 </script>
 </body>
 </html>
