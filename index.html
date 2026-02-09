@@ -92,6 +92,19 @@
       to { transform: translateY(-30vh) rotate(720deg); opacity: 0; }
     }
 
+    .love-note {
+      position: absolute;
+      pointer-events: none;
+      animation: floatUp 12s linear forwards;
+      font-family: 'Caveat', cursive;
+      font-size: 1.4rem;
+      color: #ff3b7a;
+      background: rgba(255,255,255,0.7);
+      padding: 8px 15px;
+      border-radius: 15px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+
     #popup {
       display: none;
       position: fixed;
@@ -151,6 +164,14 @@
     }
     @keyframes spark { to { opacity: 0; transform: scale(0.2) translateY(-50px); } }
 
+    .garden-plant {
+      position: absolute;
+      bottom: 0;
+      font-size: 3rem;
+      transform: translateY(100%);
+      transition: transform 2s ease-out;
+    }
+
     @media (max-width: 420px) {
       button { flex: 1 1 45%; margin: 6px 4px; max-width: 48%; }
     }
@@ -178,21 +199,21 @@
 <!-- PAGE 3 – Amazing person -->
 <div class="page" id="p3">
   <h2>Am I an amazing person? 🥰</h2>
-  <button onclick="addChoco(5); goToPage(3,4)">Yes, the best! ✨</button>
+  <button onclick="addChoco(5); addPlant(); goToPage(3,4)">Yes, the best! ✨</button>
   <button id="noAmazing" class="dodge-btn">No 😒</button>
 </div>
 
 <!-- PAGE 4 – Annoy -->
 <div class="page" id="p4">
   <h2>Do I annoy you? 🥺</h2>
-  <button onclick="showPopup('Yay! 🥳💕<br>I knew I was bearable hehe', 4, 5); addChoco(5)">No, not at all</button>
+  <button onclick="showPopup('Yay! 🥳💕<br>I knew I was bearable hehe', 4, 5); addChoco(5); addPlant()">No, not at all</button>
   <button onclick="showPopup('😭💔<br>Ouch... I\'ll try to be better 🥺', 4, 5)">Yes, a lot</button>
 </div>
 
 <!-- PAGE 5 – Love me -->
 <div class="page" id="p5">
   <h2>Do you love me? 🥺</h2>
-  <button onclick="addChoco(10); goToPage(5,6)">Yes 💖</button>
+  <button onclick="addChoco(10); addPlant(); goToPage(5,6)">Yes 💖</button>
   <button id="noLove" class="dodge-btn">No 🙃</button>
 </div>
 
@@ -203,7 +224,7 @@
   <button onclick="showPopup('Aww wrong 😔', 6, 6)">2006</button>
   <button onclick="showPopup('Nope 😅', 6, 6)">2009</button>
   <button onclick="showPopup('Almost 😆', 6, 6)">2005</button>
-  <button onclick="showPopup('You know me so well 🥹💖', 6, 7); addChoco(15)">2007</button>
+  <button onclick="showPopup('You know me so well 🥹💖', 6, 7); addChoco(15); addPlant()">2007</button>
 </div>
 
 <!-- FINAL PAGE -->
@@ -211,18 +232,18 @@
   <img src="arusi3.jpeg" class="photo" alt="Arusi">
   <h1 id="finalText" class="heartbeat" style="font-family: 'Caveat', cursive; font-size: 3.2rem; margin: 20px 0;"></h1>
 
-  <!-- Chocolate Counter -->
+  <!-- Chocolate Kiss Counter -->
   <div id="chocoCounter" style="font-size:1.5rem; color:#ff3b7a; margin:15px 0; display:none;">
-    Virtual chocolates & teddy hugs for Arusi: <strong id="count">0</strong> 🍫🧸💕
+    Chocolate kisses & hugs for Arusi: <strong id="count">0</strong> 😘🧸💕
   </div>
 
   <!-- Bouquet Game -->
   <div id="bouquet" style="margin:25px 0; display:none;">
     <h3>Pick your favorites 🌷🌹🍫🧸</h3>
-    <button onclick="addToBouquet('🌷')">Tulip</button>
-    <button onclick="addToBouquet('🌹')">Rose</button>
-    <button onclick="addToBouquet('🍫')">Chocolate</button>
-    <button onclick="addToBouquet('🧸')">Teddy Hug</button>
+    <button onclick="addToBouquet('🌷'); addPlant()">Tulip</button>
+    <button onclick="addToBouquet('🌹'); addPlant()">Rose</button>
+    <button onclick="addToBouquet('🍫'); addPlant()">Chocolate</button>
+    <button onclick="addToBouquet('🧸'); addPlant()">Teddy Hug</button>
     <div id="bouquetDisplay" style="font-size:2.5rem; min-height:60px; margin-top:15px;"></div>
   </div>
 
@@ -230,6 +251,12 @@
   <button id="fortuneBtn" style="display:none; margin:20px 0;">Open a chocolate fortune 🍪🍫</button>
   <div id="fortune" style="display:none; font-size:1.3rem; color:#ff3b7a; margin:20px 0; padding:20px; background:#fff5f9; border-radius:20px; box-shadow:0 5px 15px rgba(0,0,0,0.15);">
     <p id="fortuneText"></p>
+  </div>
+
+  <!-- Why I Love You List -->
+  <button id="whyBtn" style="display:none; margin:20px 0; background:#ff85ad;">Why I love Arusi 💖</button>
+  <div id="whyList" style="display:none; max-width:500px; margin:20px auto; text-align:left;">
+    <ul id="reasons" style="list-style:none; padding:0;"></ul>
   </div>
 
   <!-- Teddy Says -->
@@ -243,10 +270,16 @@
   <!-- Flower Color Picker -->
   <div id="flowerPicker" style="margin:20px 0; display:none;">
     <h3>Pick your favorite flower color 🌷🌹</h3>
-    <button onclick="changeColor('#ff69b4')">Pink</button>
-    <button onclick="changeColor('#ff1493')">Hot Pink</button>
+    <button onclick="changeColor('#ff69b4')">Pink Kiss</button>
+    <button onclick="changeColor('#ff1493')">Hot Love</button>
     <button onclick="changeColor('#c71585')">Deep Rose</button>
     <button onclick="changeColor('#ffb6c1')">Soft Tulip</button>
+    <button onclick="changeColor('#ffe6f0')">Reset</button>
+  </div>
+
+  <!-- Virtual Garden -->
+  <div id="garden" style="margin:30px 0; display:none; width:320px; height:160px; background:#e0f7fa; border-radius:20px; position:relative; overflow:hidden; box-shadow:0 5px 15px rgba(0,0,0,0.1);">
+    <div id="plants" style="position:absolute; bottom:0; left:0; right:0; height:100%;"></div>
   </div>
 
   <button id="secretBtn">Final secret 💌</button>
@@ -262,7 +295,7 @@
 </div>
 
 <script>
-  console.log("=== SCRIPT LOADED – DEBUGGED VERSION ===");
+  console.log("=== SCRIPT LOADED – FULL FEATURES ===");
 
   let chocoCount = 0;
 
@@ -332,6 +365,7 @@
       document.getElementById('bouquet').style.display = 'block';
       document.getElementById('fortuneBtn').style.display = 'inline-block';
       document.getElementById('flowerPicker').style.display = 'block';
+      document.getElementById('whyBtn').style.display = 'inline-block';
       addChoco(20);
     }
   }
@@ -384,6 +418,63 @@
 
   function changeColor(color) {
     document.body.style.background = `linear-gradient(135deg, ${color}, #fffafc)`;
+  }
+
+  function showWhy() {
+    const reasons = [
+      "Because your smile is sweeter than any chocolate 🍫😍",
+      "Because you're prettier than every tulip in the garden 🌷",
+      "Because teddy gets jealous when I hug you instead 🧸🤭",
+      "Because every rose wishes it was as beautiful as you 🌹",
+      "Because you make my heart do happy dances every day 💃❤️"
+    ];
+
+    let list = document.getElementById('reasons');
+    list.innerHTML = '';
+    reasons.forEach((reason, index) => {
+      let li = document.createElement('li');
+      li.textContent = reason;
+      li.style.opacity = '0';
+      li.style.transition = 'opacity 1s';
+      li.style.margin = '10px 0';
+      list.appendChild(li);
+      setTimeout(() => { li.style.opacity = '1'; }, index * 800 + 200);
+    });
+    document.getElementById('whyList').style.display = 'block';
+  }
+
+  let whyBtn = document.getElementById('whyBtn');
+  if (whyBtn) {
+    whyBtn.onclick = showWhy;
+  }
+
+  // Floating love notes
+  function spawnNote() {
+    const notes = ["I love you", "You're my favorite", "Hug time 🧸", "Chocolate date soon? 🍫", "Forever with you 💕"];
+    setInterval(function() {
+      var el = document.createElement('div');
+      el.className = 'love-note';
+      el.textContent = notes[Math.floor(Math.random() * notes.length)];
+      el.style.left = Math.random() * 100 + 'vw';
+      el.style.animationDuration = '12s';
+      document.body.appendChild(el);
+      setTimeout(function() { el.remove(); }, 12000);
+    }, 3500);
+  }
+  spawnNote();
+
+  // Virtual Garden
+  function addPlant() {
+    let garden = document.getElementById('garden');
+    garden.style.display = 'block';
+    let plant = document.createElement('div');
+    plant.className = 'garden-plant';
+    plant.style.left = Math.random() * 90 + '%';
+    plant.textContent = ['🌷', '🌹', '🍫', '🧸'][Math.floor(Math.random() * 4)];
+    document.getElementById('plants').appendChild(plant);
+    setTimeout(() => {
+      plant.style.transform = 'translateY(-100%) scale(1.2)';
+    }, 100);
   }
 
   var pics = ["arusi1.jpeg", "arusi2.jpeg", "arusi3.jpeg"];
