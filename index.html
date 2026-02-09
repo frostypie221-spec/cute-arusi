@@ -262,168 +262,172 @@
 </div>
 
 <script>
-  console.log("=== FULL SCRIPT LOADED – CUSTOMIZED VERSION ===");
+  console.log("=== SCRIPT START – CLEAN VERSION ===");
 
-  let chocoCount = 0;
+let chocoCount = 0;
 
-  function addChoco(amount) {
-    chocoCount += amount;
-    let counter = document.getElementById('chocoCounter');
-    let countEl = document.getElementById('count');
-    if (counter && countEl) {
-      countEl.textContent = chocoCount;
-      counter.style.display = 'block';
-    }
+function addChoco(amount) {
+  chocoCount += amount;
+  let counter = document.getElementById('chocoCounter');
+  let countEl = document.getElementById('count');
+  if (counter && countEl) {
+    countEl.textContent = chocoCount;
+    counter.style.display = 'block';
   }
+  console.log("Choco added: now " + chocoCount);
+}
 
-  function goToPage(from, to) {
-    let pFrom = document.getElementById('p' + from);
-    let pTo = document.getElementById('p' + to);
-    if (pFrom && pTo) {
-      pFrom.classList.remove('active');
-      pTo.classList.add('active');
-    }
+function goToPage(from, to) {
+  console.log("goToPage called: " + from + " to " + to);
+  let pFrom = document.getElementById('p' + from);
+  let pTo = document.getElementById('p' + to);
+  if (pFrom && pTo) {
+    pFrom.classList.remove('active');
+    pTo.classList.add('active');
+  } else {
+    console.error("Page missing: p" + from + " or p" + to);
   }
+}
 
-  function showPopup(message, current, next) {
-    let popup = document.getElementById('popup');
-    let text = document.getElementById('popupText');
-    if (!popup || !text) return;
+function showPopup(message, current, next) {
+  console.log("Popup: " + message);
+  let popup = document.getElementById('popup');
+  let text = document.getElementById('popupText');
+  if (!popup || !text) return;
 
-    text.innerHTML = message;
-    popup.style.display = 'flex';
+  text.innerHTML = message;
+  popup.style.display = 'flex';
 
-    setTimeout(() => {
-      popup.style.display = 'none';
-      if (next) goToPage(current, next);
-    }, 1800);
-  }
+  setTimeout(() => {
+    popup.style.display = 'none';
+    if (next) goToPage(current, next);
+  }, 1800);
+}
 
-  function closePopup() {
-    let popup = document.getElementById('popup');
-    if (popup) popup.style.display = 'none';
-  }
+function closePopup() {
+  let popup = document.getElementById('popup');
+  if (popup) popup.style.display = 'none';
+}
 
-  function makeDodge(id) {
-    let btn = document.getElementById(id);
-    if (btn) {
-      btn.onmouseover = function() {
-        this.style.left = Math.random() * 70 + 'vw';
-        this.style.top = Math.random() * 70 + 'vh';
-        this.style.position = 'absolute';
-      };
-    }
-  }
-  makeDodge('noValentine');
-  makeDodge('noAmazing');
-  makeDodge('noLove');
-
-  let loveMsg = "I love you so so so much Arusi 🌷💖🍫🧸";
-  let charIdx = 0;
-  let finalEl = document.getElementById('finalText');
-
-  function typeIt() {
-    if (charIdx < loveMsg.length) {
-      finalEl.innerHTML += loveMsg.charAt(charIdx);
-      charIdx++;
-      setTimeout(typeIt, 80);
-    } else {
-      document.getElementById('secretBtn').style.display = 'inline-block';
-      document.getElementById('bouquet').style.display = 'block';
-      document.getElementById('fortuneBtn').style.display = 'inline-block';
-      document.getElementById('flowerPicker').style.display = 'block';
-      addChoco(20);
-    }
-  }
-
-  let p7 = document.getElementById('p7');
-  if (p7) {
-    p7.onclick = function() {
-      if (charIdx === 0) typeIt();
+function makeDodge(id) {
+  let btn = document.getElementById(id);
+  if (btn) {
+    btn.onmouseover = function() {
+      this.style.left = Math.random() * 70 + 'vw';
+      this.style.top = Math.random() * 70 + 'vh';
+      this.style.position = 'absolute';
     };
   }
+}
+makeDodge('noValentine');
+makeDodge('noAmazing');
+makeDodge('noLove');
 
-  let secretBtn = document.getElementById('secretBtn');
-  if (secretBtn) {
-    secretBtn.onclick = function() {
-      showPopup("Arusi 🌷<br>You are my favorite person 💖<br>You make my heart smile every day 🫶<br>I love you endlessly 💞<br><br>Here's your bouquet & teddy hugs 🍫🧸🌹", null, null);
-    };
+let loveMsg = "I love you so so so much Arusi 🌷💖🍫🧸";
+let charIdx = 0;
+let finalEl = document.getElementById('finalText');
+
+function typeIt() {
+  if (charIdx < loveMsg.length) {
+    finalEl.innerHTML += loveMsg.charAt(charIdx);
+    charIdx++;
+    setTimeout(typeIt, 80);
+  } else {
+    document.getElementById('secretBtn').style.display = 'inline-block';
+    document.getElementById('bouquet').style.display = 'block';
+    document.getElementById('fortuneBtn').style.display = 'inline-block';
+    document.getElementById('flowerPicker').style.display = 'block';
+    addChoco(20);
   }
+}
 
-  function addToBouquet(item) {
-    document.getElementById('bouquetDisplay').innerHTML += item + ' ';
+let p7 = document.getElementById('p7');
+if (p7) {
+  p7.onclick = function() {
+    if (charIdx === 0) typeIt();
+  };
+}
+
+let secretBtn = document.getElementById('secretBtn');
+if (secretBtn) {
+  secretBtn.onclick = function() {
+    showPopup("Arusi 🌷<br>You are my favorite person 💖<br>You make my heart smile every day 🫶<br>I love you endlessly 💞<br><br>Here's your bouquet & teddy hugs 🍫🧸🌹", null, null);
+  };
+}
+
+function addToBouquet(item) {
+  document.getElementById('bouquetDisplay').innerHTML += item + ' ';
+}
+
+function teddyTalk() {
+  const msgs = [
+    "Arusi is the cutest girl in the world 🧸💕",
+    "I need chocolates and hugs from you 🍫🤗",
+    "You're my favorite reason to smile 🌷",
+    "I love you more than all the roses in the world 🌹",
+    "Teddy says: never let go of her! 🧸❤️"
+  ];
+  document.getElementById('teddyMsg').textContent = msgs[Math.floor(Math.random() * msgs.length)];
+  document.getElementById('teddyBubble').style.display = 'block';
+  setTimeout(() => { document.getElementById('teddyBubble').style.display = 'none'; }, 5000);
+}
+
+function openFortune() {
+  const fortunes = [
+    "Your smile is sweeter than any chocolate 🍫💕",
+    "Every day with you feels like Valentine's Day 🌷❤️",
+    "Teddy says: you're the best hug ever 🧸🤗",
+    "Roses are red, tulips are sweet, you're my favorite treat 🌹🍫",
+    "I love you more than all the chocolates in the world 😭💖"
+  ];
+  document.getElementById('fortuneText').textContent = fortunes[Math.floor(Math.random() * fortunes.length)];
+  document.getElementById('fortune').style.display = 'block';
+}
+
+let fortuneBtn = document.getElementById('fortuneBtn');
+if (fortuneBtn) fortuneBtn.onclick = openFortune;
+
+function changeColor(color) {
+  document.body.style.background = linear-gradient(135deg, ${color}, #fffafc);
+}
+
+var pics = ["arusi1.jpeg", "arusi2.jpeg", "arusi3.jpeg"];
+var picIdx = 0;
+var slide = document.getElementById('slide');
+setInterval(function() {
+  if (document.getElementById('p1').classList.contains('active')) {
+    picIdx = (picIdx + 1) % pics.length;
+    if (slide) slide.src = pics[picIdx];
   }
+}, 4000);
 
-  function teddyTalk() {
-    const msgs = [
-      "Arusi is the cutest girl in the world 🧸💕",
-      "I need chocolates and hugs from you 🍫🤗",
-      "You're my favorite reason to smile 🌷",
-      "I love you more than all the roses in the world 🌹",
-      "Teddy says: never let go of her! 🧸❤️"
-    ];
-    document.getElementById('teddyMsg').textContent = msgs[Math.floor(Math.random() * msgs.length)];
-    document.getElementById('teddyBubble').style.display = 'block';
-    setTimeout(() => { document.getElementById('teddyBubble').style.display = 'none'; }, 5000);
-  }
-
-  function openFortune() {
-    const fortunes = [
-      "Your smile is sweeter than any chocolate 🍫💕",
-      "Every day with you feels like Valentine's Day 🌷❤️",
-      "Teddy says: you're the best hug ever 🧸🤗",
-      "Roses are red, tulips are sweet, you're my favorite treat 🌹🍫",
-      "I love you more than all the chocolates in the world 😭💖",
-      "You're the missing piece to my heart (and my candy stash) 🧩🍬",
-      "Forever starts with you and a box of chocolates 🍫🫶"
-    ];
-    document.getElementById('fortuneText').textContent = fortunes[Math.floor(Math.random() * fortunes.length)];
-    document.getElementById('fortune').style.display = 'block';
-  }
-
-  let fortuneBtn = document.getElementById('fortuneBtn');
-  if (fortuneBtn) fortuneBtn.onclick = openFortune;
-
-  function changeColor(color) {
-    document.body.style.background = linear-gradient(135deg, ${color}, #fffafc);
-  }
-
-  var pics = ["arusi1.jpeg", "arusi2.jpeg", "arusi3.jpeg"];
-  var picIdx = 0;
-  var slide = document.getElementById('slide');
+function spawn(emoji, sz, dur, freq) {
   setInterval(function() {
-    if (document.getElementById('p1').classList.contains('active')) {
-      picIdx = (picIdx + 1) % pics.length;
-      if (slide) slide.src = pics[picIdx];
-    }
-  }, 4000);
+    var el = document.createElement('div');
+    el.className = 'float';
+    el.textContent = emoji;
+    el.style.left = Math.random() * 100 + 'vw';
+    el.style.fontSize = sz;
+    el.style.animationDuration = dur + 's';
+    document.body.appendChild(el);
+    setTimeout(function() { el.remove(); }, dur * 1000);
+  }, freq);
+}
+spawn('🌷', '28px', 9, 400);
+spawn('💖', '20px', 7, 300);
 
-  function spawn(emoji, sz, dur, freq) {
-    setInterval(function() {
-      var el = document.createElement('div');
-      el.className = 'float';
-      el.textContent = emoji;
-      el.style.left = Math.random() * 100 + 'vw';
-      el.style.fontSize = sz;
-      el.style.animationDuration = dur + 's';
-      document.body.appendChild(el);
-      setTimeout(function() { el.remove(); }, dur * 1000);
-    }, freq);
-  }
-  spawn('🌷', '28px', 9, 400);
-  spawn('💖', '20px', 7, 300);
+document.addEventListener('mousemove', function(e) {
+  var sp = document.createElement('div');
+  sp.className = 'sparkle';
+  sp.textContent = '✨';
+  sp.style.left = e.clientX + 'px';
+  sp.style.top = e.clientY + 'px';
+  document.body.appendChild(sp);
+  setTimeout(function() { sp.remove(); }, 1300);
+});
 
-  document.addEventListener('mousemove', function(e) {
-    var sp = document.createElement('div');
-    sp.className = 'sparkle';
-    sp.textContent = '✨';
-    sp.style.left = e.clientX + 'px';
-    sp.style.top = e.clientY + 'px';
-    document.body.appendChild(sp);
-    setTimeout(function() { sp.remove(); }, 1300);
-  });
-
-  console.log("=== CUSTOMIZED PAGE LOADED – CHOCOLATE FORTUNE & COLOR PICKER ADDED ===");
+console.log("=== SCRIPT FULLY LOADED – ALL FEATURES ACTIVE ===");
+</script>
 </script>
 </body>
 </html>
