@@ -47,7 +47,7 @@
     }
     @keyframes glow {
       from { text-shadow: 0 0 10px #ff9acb, 0 0 20px #ff5fa2; }
-      to { text-shadow: 0 0 25px #ff5fa2, 0 0 45px #ff5fa2; }
+      to   { text-shadow: 0 0 25px #ff5fa2, 0 0 45px #ff5fa2; }
     }
 
     .heartbeat {
@@ -181,6 +181,36 @@
       z-index: 1;
     }
 
+    #lotteryWheel {
+      width: 180px;
+      height: 180px;
+      border-radius: 50%;
+      border: 8px solid #ff5c8a;
+      margin: 15px auto;
+      background: conic-gradient(#ff69b4 0deg 72deg, #ff1493 72deg 144deg, #c71585 144deg 216deg, #ffb6c1 216deg 288deg, #ff69b4 288deg 360deg);
+      position: relative;
+      overflow: hidden;
+      transition: transform 4s ease-out;
+    }
+
+    #lotteryResult {
+      margin: 15px 0;
+      font-size: 1.4rem;
+      color: #ff3b7a;
+    }
+
+    .star-letter {
+      position: absolute;
+      font-size: 3rem;
+      color: #fff;
+      text-shadow: 0 0 10px #fff, 0 0 20px #ff69b4;
+      animation: twinkle 4s infinite;
+    }
+    @keyframes twinkle {
+      0%, 100% { opacity: 0.7; transform: scale(1); }
+      50% { opacity: 1; transform: scale(1.1); }
+    }
+
     @media (max-width: 420px) {
       h1, h2 { font-size: 1.7rem; margin: 8px 0; }
       .photo { width: 170px; margin: 8px auto; }
@@ -190,6 +220,7 @@
         margin: 8px 0;
       }
       #bouquet button { padding: 7px 14px; font-size: 0.85rem; }
+      #lotteryWheel { width: 150px; height: 150px; }
     }
   </style>
 </head>
@@ -341,14 +372,13 @@
 </div>
 
 <script>
-  console.log("=== SCRIPT LOADED – DEBUGGED VERSION ===");
+  console.log("=== SCRIPT LOADED – FULLY DEBUGGED ===");
 
   let chocoCount = 0;
   let tapCount = 0;
   let tapTimer = null;
 
   function addChoco(amount) {
-    console.log("addChoco called with", amount);
     chocoCount += amount;
     let counter = document.getElementById('chocoCounter');
     let countEl = document.getElementById('count');
@@ -359,19 +389,15 @@
   }
 
   function goToPage(from, to) {
-    console.log(`goToPage called: ${from} → ${to}`);
     let pFrom = document.getElementById('p' + from);
     let pTo = document.getElementById('p' + to);
     if (pFrom && pTo) {
       pFrom.classList.remove('active');
       pTo.classList.add('active');
-    } else {
-      console.error("Pages not found:", from, to);
     }
   }
 
   function showPopup(message, current, next) {
-    console.log("showPopup called:", message);
     let popup = document.getElementById('popup');
     let text = document.getElementById('popupText');
     if (!popup || !text) return;
@@ -382,7 +408,7 @@
     setTimeout(() => {
       popup.style.display = 'none';
       if (next) goToPage(current, next);
-    }, 7000); // 7 seconds
+    }, 7000);
   }
 
   function closePopup() {
@@ -459,7 +485,6 @@
   }
 
   function teddyMood() {
-    console.log("teddyMood called");
     const moods = [
       "Teddy is blushing super hard because you're too cute 🧸😳💕",
       "Teddy is melting... you're sweeter than chocolate 🍫🫠",
@@ -473,9 +498,7 @@
   }
 
   let moodBtn = document.getElementById('moodBtn');
-  if (moodBtn) {
-    moodBtn.onclick = teddyMood;
-  }
+  if (moodBtn) moodBtn.onclick = teddyMood;
 
   function openFortune() {
     const fortunes = [
@@ -545,15 +568,13 @@
 
   // Virtual Garden
   function addPlant() {
-    console.log("addPlant called");
     let garden = document.getElementById('garden');
-    if (garden) garden.style.display = 'block';
+    garden.style.display = 'block';
     let plant = document.createElement('div');
     plant.className = 'garden-plant';
     plant.style.left = Math.random() * 90 + '%';
     plant.textContent = ['🌷', '🌹', '🍫', '🧸'][Math.floor(Math.random() * 4)];
-    let plants = document.getElementById('plants');
-    if (plants) plants.appendChild(plant);
+    document.getElementById('plants').appendChild(plant);
     setTimeout(() => {
       plant.style.transform = 'translateY(-100%) scale(1.2)';
     }, 100);
@@ -585,7 +606,6 @@
   spawn('💖', '20px', 7, 300);
 
   document.addEventListener('mousemove', function(e) {
-    console.log("Mouse moved – creating sparkle");
     var sp = document.createElement('div');
     sp.className = 'sparkle';
     sp.textContent = '✨';
@@ -594,24 +614,6 @@
     document.body.appendChild(sp);
     setTimeout(function() { sp.remove(); }, 1300);
   });
-
-  function teddyTap() {
-    tapCount++;
-    if (tapCount === 1) {
-      tapTimer = setTimeout(() => { tapCount = 0; }, 3000);
-    }
-    if (tapCount === 3) {
-      clearTimeout(tapTimer);
-      tapCount = 0;
-      document.getElementById('teddyMsg').textContent = "Hey! Stop being so cute, I'm getting jealous 😤🧸";
-      document.getElementById('teddyBubble').style.display = 'block';
-      document.getElementById('teddyContainer').classList.add('teddy-shake');
-      setTimeout(() => {
-        document.getElementById('teddyBubble').style.display = 'none';
-        document.getElementById('teddyContainer').classList.remove('teddy-shake');
-      }, 3000);
-    }
-  }
 
   console.log("=== PAGE FULLY LOADED – ALL FEATURES READY ===");
 </script>
