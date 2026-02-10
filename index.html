@@ -47,7 +47,7 @@
     }
     @keyframes glow {
       from { text-shadow: 0 0 10px #ff9acb, 0 0 20px #ff5fa2; }
-      to   { text-shadow: 0 0 25px #ff5fa2, 0 0 45px #ff5fa2; }
+      to { text-shadow: 0 0 25px #ff5fa2, 0 0 45px #ff5fa2; }
     }
 
     .heartbeat {
@@ -181,36 +181,6 @@
       z-index: 1;
     }
 
-    #lotteryWheel {
-      width: 180px;
-      height: 180px;
-      border-radius: 50%;
-      border: 8px solid #ff5c8a;
-      margin: 15px auto;
-      background: conic-gradient(#ff69b4 0deg 72deg, #ff1493 72deg 144deg, #c71585 144deg 216deg, #ffb6c1 216deg 288deg, #ff69b4 288deg 360deg);
-      position: relative;
-      overflow: hidden;
-      transition: transform 4s ease-out;
-    }
-
-    #lotteryResult {
-      margin: 15px 0;
-      font-size: 1.4rem;
-      color: #ff3b7a;
-    }
-
-    .star-letter {
-      position: absolute;
-      font-size: 3rem;
-      color: #fff;
-      text-shadow: 0 0 10px #fff, 0 0 20px #ff69b4;
-      animation: twinkle 4s infinite;
-    }
-    @keyframes twinkle {
-      0%, 100% { opacity: 0.7; transform: scale(1); }
-      50% { opacity: 1; transform: scale(1.1); }
-    }
-
     @media (max-width: 420px) {
       h1, h2 { font-size: 1.7rem; margin: 8px 0; }
       .photo { width: 170px; margin: 8px auto; }
@@ -220,7 +190,6 @@
         margin: 8px 0;
       }
       #bouquet button { padding: 7px 14px; font-size: 0.85rem; }
-      #lotteryWheel { width: 150px; height: 150px; }
     }
   </style>
 </head>
@@ -312,24 +281,6 @@
     <p id="moodText"></p>
   </div>
 
-  <!-- Teddy's Love Lottery -->
-  <button id="lotteryBtn" style="display:none; margin:15px 0; background:#ff69b4;">Spin Teddy's Love Lottery 🎰</button>
-  <div id="lotteryWheel" style="display:none;"></div>
-  <div id="lotteryResult" style="display:none; margin:10px 0; font-size:1.4rem; color:#ff3b7a;"></div>
-
-  <!-- Daily Wish Jar -->
-  <div id="wishJar" style="display:none; margin:15px 0;">
-    <input type="text" id="wishInput" placeholder="Add a wish for us...">
-    <button onclick="addWish()">Add to Jar 🫙</button>
-    <div id="wishList" style="max-width:400px; margin:10px auto; text-align:left;"></div>
-  </div>
-
-  <!-- Arusi's Star Map -->
-  <button id="starMapBtn" style="display:none; margin:15px 0; background:#0000ff; color:white;">See our stars ✨</button>
-  <div id="starMap" style="display:none; height:120px; width:100%; position:relative; background:#000; border-radius:15px; overflow:hidden; margin:15px 0;">
-    <div id="stars" style="position:absolute; top:0; left:0; width:100%; height:100%;"></div>
-  </div>
-
   <!-- Teddy (emoji only) -->
   <div id="teddyContainer" style="position:relative; margin:30px auto; width:160px; cursor:pointer; font-size:8rem; line-height:1;">
     <span onclick="teddyTap()">🧸</span>
@@ -372,11 +323,9 @@
 </div>
 
 <script>
-  console.log("=== SCRIPT LOADED – FULLY DEBUGGED ===");
+  console.log("=== SCRIPT LOADED – FIXED VERSION ===");
 
   let chocoCount = 0;
-  let tapCount = 0;
-  let tapTimer = null;
 
   function addChoco(amount) {
     chocoCount += amount;
@@ -446,9 +395,6 @@
       document.getElementById('flowerPicker').style.display = 'block';
       document.getElementById('whyBtn').style.display = 'inline-block';
       document.getElementById('moodBtn').style.display = 'inline-block';
-      document.getElementById('lotteryBtn').style.display = 'inline-block';
-      document.getElementById('wishJar').style.display = 'block';
-      document.getElementById('starMapBtn').style.display = 'inline-block';
       addChoco(20);
     }
   }
@@ -569,14 +515,15 @@
   // Virtual Garden
   function addPlant() {
     let garden = document.getElementById('garden');
-    garden.style.display = 'block';
+    if (garden) garden.style.display = 'block';
     let plant = document.createElement('div');
     plant.className = 'garden-plant';
     plant.style.left = Math.random() * 90 + '%';
     plant.textContent = ['🌷', '🌹', '🍫', '🧸'][Math.floor(Math.random() * 4)];
-    document.getElementById('plants').appendChild(plant);
+    let plants = document.getElementById('plants');
+    if (plants) plants.appendChild(plant);
     setTimeout(() => {
-      plant.style.transform = 'translateY(-100%) scale(1.2)';
+      if (plant) plant.style.transform = 'translateY(-100%) scale(1.2)';
     }, 100);
   }
 
@@ -615,7 +562,7 @@
     setTimeout(function() { sp.remove(); }, 1300);
   });
 
-  console.log("=== PAGE FULLY LOADED – ALL FEATURES READY ===");
+  console.log("=== PAGE FULLY LOADED – FIXED VERSION ===");
 </script>
 </body>
 </html>
